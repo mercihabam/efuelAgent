@@ -22,7 +22,7 @@ const LeftContent = () =>{
     )
 };
 
-const RightContent = () =>{
+const RightContent = ({onClick}) =>{
 
     return(
         <View style={{
@@ -31,20 +31,20 @@ const RightContent = () =>{
             flexDirection: 'row',
             alignItems: 'center'
         }}>
-            <Icon style={styles.menuIcon} name='menu' />
+            <Icon onPress={onClick} style={styles.menuIcon} name='menu' />
         </View>
     )
 };
 
-export function NavHeader(){
+export function NavHeader({navigation}){
 
     return(
         <View>
-            <StatusBar animated={true} backgroundColor='black' style={styles.statusBar} />
+            <StatusBar backgroundColor='black' style={styles.statusBar} />
             <Header
                 placement="left"
                 leftComponent={<LeftContent />}
-                rightComponent={<RightContent />}
+                rightComponent={<RightContent onClick={() =>navigation.openDrawer()} />}
                 backgroundColor='white'
                 containerStyle={styles.header}
             />
@@ -54,7 +54,9 @@ export function NavHeader(){
 
 const styles = StyleSheet.create({
     statusBar: {
-        backgroundColor: color.orange
+        backgroundColor: color.orange,
+        height: 20,
+        color: 'black'
     },
     header: {
         width: '100%',
