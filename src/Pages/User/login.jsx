@@ -18,6 +18,8 @@ export function Login({navigation}){
         })(dispatch, navigation)
     };
 
+    const errors = error.split(',');
+
     return(
         <View style={styles.container}>
             <View style={styles.intro}>
@@ -25,8 +27,14 @@ export function Login({navigation}){
                 <Text style={styles.name}>E-FuelPoint</Text>
             </View>
             <View style={styles.inputs}>
-                <View>
-                    <Text> {JSON.stringify(error)} </Text>
+                <View style={{ marginBottom: 20 }}>
+                    {
+                        errors.map(err =>(
+                            <Text style={{
+                                color: '#c62828'
+                            }}> {err} </Text>
+                        ))
+                    }
                 </View>
                 <TextInput onChangeText={setId} style={styles.input} placeholder='Email ou numero de telephone' />
                 <TextInput style={styles.input} onChangeText={setPwd} secureTextEntry={true} placeholder='Mot de passe' textContentType='password' />
