@@ -40,7 +40,7 @@ export function NavHeader({navigation}){
 
     return(
         <View>
-            <StatusBar backgroundColor='black' style={styles.statusBar} />
+            <StatusBar backgroundColor='black' />
             <Header
                 placement="left"
                 leftComponent={<LeftContent />}

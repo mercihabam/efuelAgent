@@ -30,6 +30,7 @@ export function Transactions(){
                 trs.map(trans =>(
                     trans.type === 'consumption' ?
                     <View 
+                    key={trans.id}
                     style={[
                         styles.trans,
                         {

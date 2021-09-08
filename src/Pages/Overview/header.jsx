@@ -1,8 +1,10 @@
 import React from 'react';
 import { StyleSheet, Text, View } from "react-native";
 import { Caption } from "react-native-paper";
+import { useSelector } from 'react-redux';
 
 export function OverHeader(){
+    const { data } = useSelector(({ users: { currUser } }) =>currUser);
 
     return(
         <View style={styles.container}>
@@ -11,7 +13,7 @@ export function OverHeader(){
             </View>
             <View>
                 <Caption>Agent</Caption>
-                <Text>Merci Jacob</Text>
+                <Text>{data.fullName}</Text>
             </View>
         </View>
     )

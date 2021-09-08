@@ -10,6 +10,10 @@ import {
 } from 'react-native-paper';
 import { View, StyleSheet, TouchableOpacity } from "react-native";
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import { useDispatch, useSelector } from "react-redux";
+import * as secureStore from 'expo-secure-store';
+import { TOKEN_NAME } from 'env'
+import { getCurrUser } from "../../Redux/actions/usersActions";
 
 const menus = [
     {
@@ -27,6 +31,13 @@ const menus = [
 ]
 
 export function DrawerContents({navigation}){
+    const { data } = useSelector(({ users: { currUser } }) =>currUser);
+    const dispatch = useDispatch();
+
+    const logout = () =>{
+        secureStore.deleteItemAsync(TOKEN_NAME);
+        getCurrUser(dispatch)
+    };
 
     return(
         <View style={style.drawer}>
@@ -39,7 +50,7 @@ export function DrawerContents({navigation}){
                         </View>
                     </View>
                     <View style={style.userDetails}>
-                            <Caption style={{ color: 'white', fontSize: 15 }}>Merci Jacob</Caption>
+                            <Caption style={{ color: 'white', fontSize: 15 }}> {data.fullName} </Caption>
                     </View>
                     <View style={style.menus}>
                         {
@@ -54,9 +65,9 @@ export function DrawerContents({navigation}){
                 </View>
 
             <Drawer.Section style={style.bottomDrawerSecion}>
-                <TouchableOpacity onPress={() => navigation.navigate('/login')} style={style.logout}>
+                <TouchableOpacity onPress={logout} style={style.logout}>
                     <View><Icon name='exit-to-app' color='white' size={20} /></View>
-                    <Text style={{ color: 'white', paddingLeft: 20 }}>Decconexion</Text>
+                    <Text style={{ color: 'white', paddingLeft: 20 }}>Deconexion</Text>
                 </TouchableOpacity>
             </Drawer.Section>
         </View>
