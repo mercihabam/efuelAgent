@@ -17,7 +17,7 @@ export default {
         data: {}
     },
     currStation: {
-        loadingCurrSt: true,
+        loadingCurrSt: false,
         dataSt: { Wallet: {} },
         error: null
     }

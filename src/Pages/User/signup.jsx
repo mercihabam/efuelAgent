@@ -23,7 +23,7 @@ export function Signup({navigation}){
             lat: 0.0233,
             long: 1.00000000049,
             phone: phone
-        })(dispatch);
+        })(dispatch, navigation);
     };
 
     const errors = error.split(',');

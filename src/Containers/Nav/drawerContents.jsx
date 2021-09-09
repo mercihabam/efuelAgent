@@ -33,6 +33,12 @@ const menus = [
 export function DrawerContents({navigation}){
     const { data } = useSelector(({ users: { currUser } }) =>currUser);
     const dispatch = useDispatch();
+    const array = data.fullName.split(' ');
+    let dataUser = '';
+    for (let i = 0; i < array.length; i++) {
+        const element = array[i];
+        dataUser = dataUser + element.substr(0, 1)
+    }
 
     const logout = () =>{
         secureStore.deleteItemAsync(TOKEN_NAME);
@@ -46,7 +52,7 @@ export function DrawerContents({navigation}){
                         alignItems: 'center'
                     }}>
                         <View style={style.userInfo}>
-                            <Text style={style.userAvatar}>MJ</Text>
+                            <Text style={style.userAvatar}>{dataUser}</Text>
                         </View>
                     </View>
                     <View style={style.userDetails}>

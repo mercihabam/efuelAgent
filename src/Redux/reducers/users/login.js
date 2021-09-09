@@ -19,7 +19,8 @@ export default (state, {type, payload}) =>{
                     ...state.login,
                     loading: false,
                     error: '',
-                    data: payload
+                    data: payload.userData,
+                    token: payload.token
                 }
             }
 

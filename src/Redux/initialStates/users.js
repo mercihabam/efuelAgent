@@ -1,8 +1,9 @@
 export default {
     login: {
         loading: false,
-        data: {},
-        error: ''
+        data: { Stations: [] },
+        error: '',
+        token: ''
     },
     currUser: {
         loadingCurr: true,

@@ -3,7 +3,7 @@ import { GET_CURR_USER_ERROR, GET_CURR_USER_START, GET_CURR_USER_SUCCESS, LOGIN_
 import { SERVER_URL, TOKEN_NAME } from 'env';
 import * as SecureStore from 'expo-secure-store';
 
-export const loginAction = (data) => async(dispatch, navigation) =>{
+export const loginAction = (data) => async(dispatch, cb) =>{
     dispatch({
         type: LOGIN_START
     });
@@ -12,13 +12,14 @@ export const loginAction = (data) => async(dispatch, navigation) =>{
         const url =`${SERVER_URL}/users/login`;
         const res = await axios.post(url, data);
         if(res.status === 200){
-            SecureStore.setItemAsync(TOKEN_NAME, res.data.data.token);
+            // SecureStore.setItemAsync(TOKEN_NAME, res.data.data.token);
+            cb(true);
             dispatch({
                 type: LOGIN_SUCCESS,
-                payload: res.data.data.user
+                payload: res.data.data
             });
             SecureStore.deleteItemAsync('stationId');
-            getCurrUser(dispatch);
+            // getCurrUser(dispatch);
         }
     } catch (error) {
         const res = error.response;
@@ -70,7 +71,7 @@ export const getCurrUser = async(dispatch) =>{
     }
 };
 
-export const signupAction = (data) => async(dispatch) =>{
+export const signupAction = (data) => async(dispatch, navigation) =>{
     dispatch({
         type: SIGNUP_START
     });
@@ -78,12 +79,11 @@ export const signupAction = (data) => async(dispatch) =>{
     try {
         const res = await axios.post(`${SERVER_URL}/users/signup`, data);
         if(res.status === 201){
-            SecureStore.setItemAsync(TOKEN_NAME, res.data.data.token);
             dispatch({
                 type: SIGNUP_SUCCESS,
                 payload: res.data.data.user
             });
-            getCurrUser(dispatch);
+            navigation.navigate('login')
         }
     } catch (error) {
         const res = error.response;

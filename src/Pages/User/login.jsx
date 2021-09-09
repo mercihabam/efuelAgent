@@ -4,10 +4,12 @@ import { useDispatch, useSelector } from 'react-redux';
 import { loginAction } from '../../Redux/actions/usersActions';
 import { Button } from 'react-native-paper';
 import { color } from '../../Themes/color';
+import { ModalStation } from './stationModal';
 
 export function Login({navigation}){
     const [id, setId] = useState('');
     const [pwd, setPwd] = useState('');
+    const [modalVisible, setVisible] = useState(false);
     const dispatch = useDispatch();
     const { loading, error } = useSelector(({ users: { login } }) =>login)
 
@@ -15,7 +17,11 @@ export function Login({navigation}){
         loginAction({
             id: id,
             password: pwd
-        })(dispatch, navigation)
+        })(dispatch, (cb =>{
+            if(cb){
+                setVisible(true)
+            }
+        }))
     };
 
     const errors = error.split(',');
@@ -47,6 +53,7 @@ export function Login({navigation}){
                     marginTop: 10
                 }} onPress={() =>navigation.navigate('signup')}>Créer un compte</Text>
             </View>
+            <ModalStation visible={modalVisible} setVisible={setVisible} />
         </View>
     )
 };

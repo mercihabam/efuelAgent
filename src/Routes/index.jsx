@@ -10,22 +10,32 @@ import { DrawerContents } from "../Containers/Nav/drawerContents";
 import { NavHeader } from "../Containers/Nav/header";
 import { Login } from "../Pages/User/login";
 import { Signup } from "../Pages/User/signup";
+import { getCurrStation } from "../Redux/actions/stationsActions";
 import { getCurrUser } from "../Redux/actions/usersActions";
 import { color } from "../Themes/color";
 import { getRoute, notProtectedRoutes, protectedRoutes, withHeaderRoutes } from "../Utils/helpers";
+import * as SecureStore from 'expo-secure-store';
 
 const Drawer = createDrawerNavigator();
 
 function Routes(){
     const dispatch = useDispatch();
     const { loadingCurr, auth } = useSelector(({ users: { currUser } }) =>currUser);
+    const { loadingCurrSt } = useSelector(({ stations: {currStation} }) =>currStation);
 
     useEffect(() =>{
         getCurrUser(dispatch)
     }, [dispatch]);
 
+    useEffect(() =>{
+        (async()=>{
+            const stationId = await SecureStore.getItemAsync('stationId');
+            getCurrStation(stationId)(dispatch)
+        })()
+    }, [dispatch])
+
     return(
-        loadingCurr ?
+        loadingCurr || loadingCurrSt ?
         <View style={{
             flex: 1,
             justifyContent: 'center',
