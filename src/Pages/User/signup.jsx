@@ -1,21 +1,29 @@
 import React, { useState } from 'react';
 import { StyleSheet, Text, TextInput, View } from "react-native";
 import { useDispatch, useSelector } from 'react-redux';
-import { loginAction } from '../../Redux/actions/usersActions';
+import { signupAction } from '../../Redux/actions/usersActions';
 import { Button } from 'react-native-paper';
 import { color } from '../../Themes/color';
 
-export function Login({navigation}){
-    const [id, setId] = useState('');
+export function Signup({navigation}){
+    const [ phone, setPhone ] = useState('');
+    const [ email, setEmail ] = useState('');
     const [pwd, setPwd] = useState('');
+    const [name, setName] = useState('');
+    const [confirm, setConfirm] = useState('');
     const dispatch = useDispatch();
-    const { loading, error } = useSelector(({ users: { login } }) =>login)
+    const { loading, error } = useSelector(({ users: {signup} }) =>signup);
 
     const submit = () =>{
-        loginAction({
-            id: id,
-            password: pwd
-        })(dispatch, navigation)
+        signupAction({
+            fullName: name,
+            email: email,
+            password: pwd,
+            confirmPassword: confirm,
+            lat: 0.0233,
+            long: 1.00000000049,
+            phone: phone
+        })(dispatch);
     };
 
     const errors = error.split(',');
@@ -23,29 +31,33 @@ export function Login({navigation}){
     return(
         <View style={styles.container}>
             <View style={styles.intro}>
-                <Text style={styles.title}>Bienvenue sur</Text>
+                <Text style={styles.title}>Insrcivez-vous sur</Text>
                 <Text style={styles.name}>E-FuelPoint</Text>
             </View>
             <View style={styles.inputs}>
-                <View style={{ marginBottom: 20 }}>
+                <View style={{ marginBottom: 10, marginTop: 20 }}>
                     {
                         errors.map(err =>(
                             <Text style={{
-                                color: '#c62828'
+                                color: '#c62828',
+                                textAlign: 'left'
                             }}> {err} </Text>
                         ))
                     }
                 </View>
-                <TextInput onChangeText={setId} style={styles.input} placeholder='Email ou numero de telephone' />
+                <TextInput onChangeText={setName} style={styles.input} placeholder='Nom complet' />
+                <TextInput onChangeText={setEmail} style={styles.input} placeholder='Email' />
+                <TextInput onChangeText={setPhone} style={styles.input} placeholder='Numéro de téléphone' />
                 <TextInput style={styles.input} onChangeText={setPwd} secureTextEntry={true} placeholder='Mot de passe' textContentType='password' />
+                <TextInput style={styles.input} onChangeText={setConfirm} secureTextEntry={true} placeholder='Confirmer mot de passe' textContentType='password' />
                 <Button color='white' loading={loading} onPress={submit} block style={styles.button}  >
-                    se connecter
+                    s'incrire
                 </Button>
                 <Text style={{
                     textAlign: 'center',
                     color: '#039be5',
                     marginTop: 10
-                }} onPress={() =>navigation.navigate('signup')}>Créer un compte</Text>
+                }} onPress={() =>navigation.navigate('login')}>Connexion</Text>
             </View>
         </View>
     )
@@ -58,10 +70,7 @@ const styles = StyleSheet.create({
         alignItems: 'center'
     },
     intro: {
-        flex: 0,
-        height: '30%',
-        width: '75%',
-        marginTop: -100
+        width: '75%'
     },
     inputs: {
         width: '75%'

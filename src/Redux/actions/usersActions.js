@@ -76,14 +76,14 @@ export const signupAction = (data) => async(dispatch) =>{
     });
 
     try {
-        const res = await axios.post(`${process.env.REACT_APP_SERVER_URL}/users/signup`, data);
+        const res = await axios.post(`${SERVER_URL}/users/signup`, data);
         if(res.status === 201){
-            localStorage.setItem(process.env.REACT_APP_TOKEN_NAME, res.data.data.token);
+            SecureStore.setItemAsync(TOKEN_NAME, res.data.data.token);
             dispatch({
                 type: SIGNUP_SUCCESS,
                 payload: res.data.data.user
             });
-            window.location = '/dashboard'
+            getCurrUser(dispatch);
         }
     } catch (error) {
         const res = error.response;

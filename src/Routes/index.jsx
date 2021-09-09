@@ -9,6 +9,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { DrawerContents } from "../Containers/Nav/drawerContents";
 import { NavHeader } from "../Containers/Nav/header";
 import { Login } from "../Pages/User/login";
+import { Signup } from "../Pages/User/signup";
 import { getCurrUser } from "../Redux/actions/usersActions";
 import { color } from "../Themes/color";
 import { getRoute, notProtectedRoutes, protectedRoutes, withHeaderRoutes } from "../Utils/helpers";
@@ -52,7 +53,10 @@ function Routes(){
                     auth === true ?
                     protectedRoutes.map(route =>(
                         <Drawer.Screen key={route.name} name={route.name} component={route.component} />
-                    )):<Drawer.Screen name='login' component={Login} />
+                    )):<>
+                        <Drawer.Screen name='login' component={Login} />
+                        <Drawer.Screen name='signup' component={Signup} />
+                    </>
                 }
                 {
                     notProtectedRoutes.map(route =>(
