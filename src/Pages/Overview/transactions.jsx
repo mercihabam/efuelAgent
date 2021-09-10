@@ -3,6 +3,12 @@ import { ScrollView, StyleSheet, Text, View } from "react-native";
 import moment from 'moment';
 import fr from 'moment/locale/fr';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import { useEffect } from 'react';
+import { getTransactions } from '../../Redux/actions/transactions';
+import { useDispatch, useSelector } from 'react-redux';
+import { agentId } from '../../Utils/helpers';
+import Loader, { FacebookLoader } from 'react-native-easy-content-loader';
+// import SkeletonLoader from 'react-native-skeleton-loader';
 
 const trs = [
     {
@@ -23,11 +29,25 @@ const trs = [
 ]
 
 export function Transactions(){
+    const { data } = useSelector(({ users: { currUser } }) =>currUser);
+    const { dataSt } = useSelector(({ stations: {currStation} }) =>currStation);
+    const { rowsTrans, loadingTrans } = useSelector(({ transactions: {transactions} }) =>transactions);
+    const dispatch = useDispatch();
+
+    useEffect(() =>{
+        getTransactions(dataSt.id, agentId(data.Agents, dataSt.id), 0, 10)(dispatch)
+    }, [dispatch, data, dataSt])
 
     return(
         <ScrollView style={styles.container}>
             {
-                trs.map(trans =>(
+                loadingTrans ?
+                <View>
+                    <FacebookLoader active loading={true} />
+                    <FacebookLoader active loading={true} />
+                    <FacebookLoader active loading={true} />
+                </View>:
+                rowsTrans.map(trans =>(
                     trans.type === 'consumption' ?
                     <View 
                     key={trans.id}

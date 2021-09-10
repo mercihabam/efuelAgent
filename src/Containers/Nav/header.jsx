@@ -40,7 +40,7 @@ export function NavHeader({navigation}){
 
     return(
         <View>
-            <StatusBar backgroundColor='black' />
+            <StatusBar translucent={true} backgroundColor='black' />
             <Header
                 placement="left"
                 leftComponent={<LeftContent />}

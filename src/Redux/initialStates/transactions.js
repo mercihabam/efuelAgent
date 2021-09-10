@@ -3,7 +3,7 @@ export default {
         loadingTrans: true,
         error: null,
         dataTrans: {},
-        rowsTrans: [ { Agent: {User: {}}, Client: {}}, {Agent: {User: {}}, Client: {}}],
+        rowsTrans: [],
         countTrans: 0
     }
 }

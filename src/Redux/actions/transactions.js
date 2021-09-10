@@ -1,16 +1,18 @@
 import axios from "axios"
-import { sendNotif } from "../../Utils/notif";
 import { GET_TRANSACTIONS_ERROR, GET_TRANSACTIONS_START, GET_TRANSACTIONS_SUCCESS } from "../actionsTypes/transactions"
+import { SERVER_URL, TOKEN_NAME } from 'env';
+import * as secureStore from 'expo-secure-store'
 
-export const getTransactions = (stationId, offset, limit, type) =>async(dispatch) =>{
+export const getTransactions = (stationId, agentId, offset, limit, type) =>async(dispatch) =>{
     dispatch({
         type: GET_TRANSACTIONS_START
     })
 
+    const token = await secureStore.getItemAsync(TOKEN_NAME);
     try {
-        const res = await axios.get(`${process.env.REACT_APP_SERVER_URL}/transactions/from-address/${stationId}?offset=${offset}&limit=${limit}&type=${type}`, {
+        const res = await axios.get(`${SERVER_URL}/transactions/by-agent/${stationId}/${agentId}?offset=${offset}&limit=${limit}&type=${type}`, {
                             headers: {
-                                'e-fuel-authtoken': localStorage.getItem(process.env.REACT_APP_TOKEN_NAME)
+                                'e-fuel-authtoken': token
                             }
                         });
 
@@ -32,7 +34,6 @@ export const getTransactions = (stationId, offset, limit, type) =>async(dispatch
                 type: GET_TRANSACTIONS_ERROR,
                 payload: 'Veuillez réessayez plus tard'
             });
-            sendNotif('success', 'Veuillez réessayez plus tard')
         }
     }
 }

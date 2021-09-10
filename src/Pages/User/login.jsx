@@ -36,7 +36,7 @@ export function Login({navigation}){
                 <View style={{ marginBottom: 20 }}>
                     {
                         errors.map(err =>(
-                            <Text style={{
+                            <Text key={err} style={{
                                 color: '#c62828'
                             }}> {err} </Text>
                         ))

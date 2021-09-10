@@ -8,7 +8,7 @@ export default {
     currUser: {
         loadingCurr: true,
         auth: undefined,
-        data: { fullName: '' },
+        data: { fullName: '', Agent: {} },
         error: null,
         stations: []
     },
