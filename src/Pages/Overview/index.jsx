@@ -4,14 +4,14 @@ import { OverHeader } from "./header";
 import { OverTitle } from "./overTitle";
 import { Transactions } from "./transactions";
 
-function Overview(){
+function Overview({navigation}){
     const [selectValue, setSelectedValue] = useState('all');
 
     return(
         <ScrollView>
             <OverHeader />
             <OverTitle selectValue={selectValue} setSelectedValue={setSelectedValue} />
-            <Transactions type={selectValue} />
+            <Transactions navigation={navigation} type={selectValue} />
         </ScrollView>
     )
 };

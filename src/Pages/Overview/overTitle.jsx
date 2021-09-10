@@ -178,6 +178,7 @@ const styles = StyleSheet.create({
     },
     blockStats: {
         width: '90%',
+        height: 200,
         marginLeft: '5%',
         flexDirection: 'row',
         backgroundColor: 'white',
@@ -188,7 +189,7 @@ const styles = StyleSheet.create({
         paddingVertical: 40,
         // position: 'absolute',
         marginTop: -50,
-        borderRadius: 20,
+        borderRadius: 10,
         marginBottom: 20
     },
     // round: {

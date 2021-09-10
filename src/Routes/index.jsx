@@ -48,7 +48,7 @@ function Routes(){
                 header: ({navigation, route, options}) =>{
                     const activeRoute = getRoute(route.name);
                     return (
-                        activeRoute && activeRoute.withHeader ? <NavHeader navigation={navigation} />:
+                        activeRoute && activeRoute.withHeader ? <NavHeader route={route} navigation={navigation} />:
                         <StatusBar backgroundColor='black' />
                     )
                 },

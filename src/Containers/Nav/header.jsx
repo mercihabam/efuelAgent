@@ -6,8 +6,9 @@ import { color } from "../../Themes/color"
 import { StatusBar } from "react-native"
 import { Text } from "react-native"
 import Icon  from "react-native-vector-icons/MaterialCommunityIcons"
+import { getRoute } from "../../Utils/helpers"
 
-const LeftContent = () =>{
+const LeftContent = ({route}) =>{
 
     return(
         <View style={{
@@ -16,7 +17,7 @@ const LeftContent = () =>{
             flexDirection: 'row',
             alignItems: 'center'
         }}>
-            <Text style={styles.headerTitle}>Dashboard</Text>
+            <Text style={styles.headerTitle}>{ getRoute(route.name).title }</Text>
         </View>
     )
 };
@@ -35,14 +36,14 @@ const RightContent = ({onClick}) =>{
     )
 };
 
-export function NavHeader({navigation}){
+export function NavHeader({navigation, route}){
 
     return(
         <View>
             <StatusBar backgroundColor='black' />
             <Header
                 placement="left"
-                leftComponent={<LeftContent />}
+                leftComponent={<LeftContent route={route} />}
                 rightComponent={<RightContent onClick={() =>navigation.openDrawer()} />}
                 backgroundColor='black'
                 containerStyle={styles.header}
