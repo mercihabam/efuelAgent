@@ -9,9 +9,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { agentId } from '../../Utils/helpers';
 import moment from 'moment';
 
-export function OverTitle(){
+export function OverTitle({selectValue, setSelectedValue}){
     const [active, setActive] = useState('week');
-    const [selectValue, setSelectedValue] = useState('recharge');
     const pickerRef = React.createRef();
     const {dataStock} = useSelector(({ stocks: {selled} }) =>selled);
     const [totalSelled, setTotalSelled] = useState();
@@ -66,7 +65,7 @@ export function OverTitle(){
                         }
                     }}
                 >
-                    {selectValue}
+                    {selectValue === 'consumption' ? 'vente': setSelectedValue==='all' ? 'tous': selectValue }
                 </Button>
                 <Picker
                     onValueChange={(value, index) =>setSelectedValue(value)}
@@ -76,7 +75,8 @@ export function OverTitle(){
                     }}
                     ref={pickerRef}
                 >
-                    <Picker.Item key="v" label='Vente' value='sell' />
+                    <Picker.Item key="a" label='Tous' value='all' />
+                    <Picker.Item key="v" label='Vente' value='consumption' />
                     <Picker.Item key='r' label='Recharge' value='recharge' />
                 </Picker>
                 <View style={styles.dates}>

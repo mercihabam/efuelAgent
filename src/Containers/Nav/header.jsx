@@ -1,5 +1,4 @@
 import React from "react"
-// import { StatusBar } from "expo-status-bar"
 import { View } from "react-native"
 import { Header } from "react-native-elements"
 import { StyleSheet } from "react-native"
@@ -40,12 +39,12 @@ export function NavHeader({navigation}){
 
     return(
         <View>
-            <StatusBar translucent={true} backgroundColor='black' />
+            <StatusBar backgroundColor='black' />
             <Header
                 placement="left"
                 leftComponent={<LeftContent />}
                 rightComponent={<RightContent onClick={() =>navigation.openDrawer()} />}
-                backgroundColor='white'
+                backgroundColor='black'
                 containerStyle={styles.header}
             />
         </View>

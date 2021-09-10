@@ -28,15 +28,15 @@ const trs = [
     }
 ]
 
-export function Transactions(){
+export function Transactions({type}){
     const { data } = useSelector(({ users: { currUser } }) =>currUser);
     const { dataSt } = useSelector(({ stations: {currStation} }) =>currStation);
     const { rowsTrans, loadingTrans } = useSelector(({ transactions: {transactions} }) =>transactions);
     const dispatch = useDispatch();
 
     useEffect(() =>{
-        getTransactions(dataSt.id, agentId(data.Agents, dataSt.id), 0, 10)(dispatch)
-    }, [dispatch, data, dataSt])
+        getTransactions(dataSt.id, agentId(data.Agents, dataSt.id), 0, 10, type)(dispatch)
+    }, [dispatch, data, dataSt, type])
 
     return(
         <ScrollView style={styles.container}>
