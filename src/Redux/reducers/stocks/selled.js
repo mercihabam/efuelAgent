@@ -19,7 +19,7 @@ export default (state, {type, payload}) =>{
                     ...state.selled,
                     loadingSelled: false,
                     error: null,
-                    data: payload
+                    dataStock: payload
                 }
             }
 

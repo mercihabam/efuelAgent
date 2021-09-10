@@ -131,7 +131,7 @@ export function Transactions(){
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        marginTop: 20,
+        marginTop: 0,
         paddingVertical: 20,
         marginBottom: 50
     },

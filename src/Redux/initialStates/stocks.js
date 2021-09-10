@@ -5,7 +5,7 @@ export default {
         error: null
     },
     selled: {
-        data: [],
+        dataStock: [],
         loadingSelled: true,
         error: null
     },

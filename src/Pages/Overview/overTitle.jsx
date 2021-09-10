@@ -1,14 +1,56 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import CircularProgress from 'react-native-circular-progress-indicator';
 import { Button } from 'react-native-paper';
 import { Picker } from '@react-native-picker/picker';
+import { getSelledStocks } from '../../Redux/actions/stocksActions';
+import { useDispatch, useSelector } from 'react-redux';
+import { agentId } from '../../Utils/helpers';
+import moment from 'moment';
 
 export function OverTitle(){
     const [active, setActive] = useState('week');
     const [selectValue, setSelectedValue] = useState('recharge');
     const pickerRef = React.createRef();
+    const {dataStock} = useSelector(({ stocks: {selled} }) =>selled);
+    const [totalSelled, setTotalSelled] = useState();
+    const hrs = new Date().setHours(0, 0, 0, 0);
+    const date = new Date(hrs);
+    const day = date.getDay();
+    const monDiff = date.getDate() - day + (day === 0 ? -6: 1);
+    const monday = date.setDate(monDiff);
+    const mondayFormated = moment(monday).format();
+    const today = moment().format();
+    const firstDay = moment(new Date(date.getFullYear(), date.getMonth(), 1)).format();
+    const lastDay = moment(new Date(date.getFullYear(), date.getMonth() + 1, 0)).format();
+    const startYear = moment(new Date(date.getFullYear(), 0, 1)).format();
+    const dispatch = useDispatch();
+    const { data } = useSelector(({ users: { currUser } }) =>currUser);
+    const { dataSt } = useSelector(({ stations: {currStation} }) =>currStation);
+
+    useEffect(() =>{
+        (() =>{
+            if(dataStock){
+                setTotalSelled(dataStock.reduce((add, curr) => (parseFloat(add) + parseFloat(curr.amount || 0)), 0))
+            }
+        })()
+    }, [dataStock]);
+
+    useEffect(() =>{
+        (() =>{
+            switch(active){
+                case 'year':
+                    getSelledStocks(dataSt.id, agentId(data.Agents, dataSt.id), startYear, today)(dispatch);
+                    break;
+                case 'month':
+                    getSelledStocks(dataSt.id, agentId(data.Agents, dataSt.id), firstDay, lastDay)(dispatch)
+                    break;
+                default:
+                    getSelledStocks(dataSt.id, agentId(data.Agents, dataSt.id), mondayFormated, today)(dispatch)
+            }
+        })()
+    }, [dispatch, active]);
 
     return(
         <View style={styles.container}>
@@ -65,12 +107,15 @@ export function OverTitle(){
                 <View>
                     <CircularProgress
                         maxValue={15000}
-                        value={80}
+                        value={totalSelled}
                         textColor='#595859'
                         activeStrokeColor='#A65C02'
                         
                     />
-                    <Text>LITRES VENDUS</Text>
+                    <Text style={{
+                        textAlign: 'center',
+                        fontSize: 12
+                    }} >LITRES VENDUS</Text>
                 </View>
 
                 <View>
@@ -81,7 +126,10 @@ export function OverTitle(){
                         activeStrokeColor='#A65C02'
                         
                     />
-                    <Text>BONUS VENDUS</Text>
+                    <Text style={{
+                        textAlign: 'center',
+                        fontSize: 12
+                    }}>BONUS VENDUS</Text>
                 </View>
             </View>
         </View>
