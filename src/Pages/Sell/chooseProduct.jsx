@@ -1,12 +1,17 @@
 import { Picker } from "@react-native-picker/picker";
+import { LinearGradient } from "expo-linear-gradient";
 import React, { useState } from "react"
 import { StyleSheet, Text, View } from "react-native"
 import { Button } from "react-native-paper";
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import { color } from "../../Themes/color";
+import { base64Tostr } from "../../Utils/helpers";
+import { QrScanner } from "./qrCodeScanner";
 
 export function ChooseProduct(){
     const [selectValue, setSelectedValue] = useState('Essence');
+    const [dataScanned, setData] = useState('');
+    const [viewScan, setViewScan] = useState();
     const pickerRef = React.createRef();
 
     return(
@@ -55,16 +60,30 @@ export function ChooseProduct(){
                 </Picker>
             </View>
 
-            <View>
-                <Text> Veuillez scanner le code QR de votre client pour transferer une quantité de votre stock </Text>
-                <Button
-                    color="#F27405"
-                    style={styles.select}
-                    icon='chevron-down'
-                    uppercase={false}
-                >
-                    Scanner Qr code
-                </Button>
+            <View style={{
+                display: 'flex',
+                alignItems: 'center',
+                marginTop: 50
+            }}>
+                <Text style={{
+                    textAlign: 'center'
+                }}> Veuillez scanner le code QR de votre client pour transferer une quantité de votre stock </Text>
+                <LinearGradient
+                    // Background Linear Gradient
+                    colors={['rgba(0, 0, 0, 0.2)', 'rgba(0, 0, 0, 0.2)']}
+                    style={styles.background}
+                />
+                <LinearGradient
+                    // Button Linear Gradient
+                    colors={['#F27405', '#595859']}
+                    style={styles.scanBtn}>
+                    <Text onPress={() =>setViewScan(true)} style={{
+                        color: 'white'
+                    }}>Scanner QR Code</Text>
+                </LinearGradient>
+                {
+                    viewScan && <QrScanner setViewScan={setViewScan} setData={setData} />
+                }
             </View>
         </View>
     )
@@ -80,7 +99,14 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         marginLeft: 10
     },
-    scanBtbn: {
-        backgroundColor: linar
+    scanBtn: {
+        width: 180,
+        height: 45,
+        marginTop: 80,
+        textAlign: 'center',
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderRadius: 30
     }
 })
