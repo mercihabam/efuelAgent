@@ -11,7 +11,6 @@ export function QrScanner({setViewScan, setData}){
     const requestCameraPermission = async() =>{
         const { status } = await BarCodeScanner.requestPermissionsAsync();
         setHasPermission(status === 'granted');
-        console.log(status);
     };
 
     useEffect(() =>{

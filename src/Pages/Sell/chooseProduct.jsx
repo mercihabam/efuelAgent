@@ -1,6 +1,7 @@
 import { Picker } from "@react-native-picker/picker";
 import { LinearGradient } from "expo-linear-gradient";
 import React, { useEffect, useState } from "react"
+import { TouchableOpacity } from "react-native";
 import { StyleSheet, Text, View } from "react-native"
 import { Button } from "react-native-paper";
 import Icon from 'react-native-vector-icons/FontAwesome5';
@@ -106,19 +107,16 @@ export function ChooseProduct(){
                         <Text style={{
                         textAlign: 'center'
                     }}> Veuillez scanner le code QR de votre client pour transferer une quantité de votre stock </Text>
-                    <LinearGradient
-                        // Background Linear Gradient
-                        colors={['rgba(0, 0, 0, 0.2)', 'rgba(0, 0, 0, 0.2)']}
-                        style={styles.background}
-                    />
-                    <LinearGradient
-                        // Button Linear Gradient
-                        colors={['#F27405', '#595859']}
-                        style={styles.scanBtn}>
-                        <Text onPress={() =>setViewScan(true)} style={{
-                            color: 'white'
-                        }}>Scanner QR Code</Text>
-                    </LinearGradient>
+                    <TouchableOpacity onPress={() =>setViewScan(true)}>
+                        <LinearGradient
+                            // Button Linear Gradient
+                            colors={['#F27405', '#595859']}
+                            style={styles.scanBtn}>
+                            <Text style={{
+                                color: 'white'
+                            }}>Scanner QR Code</Text>
+                        </LinearGradient>
+                    </TouchableOpacity>
                     {
                         viewScan && <QrScanner setViewScan={setViewScan} setData={setData} />
                     }

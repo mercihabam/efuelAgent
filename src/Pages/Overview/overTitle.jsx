@@ -65,7 +65,7 @@ export function OverTitle({selectValue, setSelectedValue}){
                         }
                     }}
                 >
-                    {selectValue === 'consumption' ? 'vente': setSelectedValue==='all' ? 'tous': selectValue }
+                    {selectValue === 'consumption' ? 'vente': selectValue==='all' ? 'tous': selectValue }
                 </Button>
                 <Picker
                     onValueChange={(value, index) =>setSelectedValue(value)}
@@ -121,7 +121,7 @@ export function OverTitle({selectValue, setSelectedValue}){
                 <View>
                     <CircularProgress
                         maxValue={15000}
-                        value={10}
+                        value={0}
                         textColor='#595859'
                         activeStrokeColor='#A65C02'
                         
