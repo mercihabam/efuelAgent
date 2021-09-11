@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { SERVER_URL, TOKEN_NAME } from 'env';
 import * as secureStore from 'expo-secure-store'
-import { GET_SELLED_STOCK_ERROR, GET_SELLED_STOCK_START, GET_SELLED_STOCK_SUCCESS } from '../actionsTypes/stocks';
+import { GET_SELLED_STOCK_ERROR, GET_SELLED_STOCK_START, GET_SELLED_STOCK_SUCCESS, GET_STOCKS_ERROR, GET_STOCKS_START, GET_STOCKS_SUCCESS } from '../actionsTypes/stocks';
 
 
 export const getSelledStocks = (stationId, agentId, date1, date2) =>async(dispatch) =>{
@@ -31,6 +31,40 @@ export const getSelledStocks = (stationId, agentId, date1, date2) =>async(dispat
         }else{
             dispatch({
                 type: GET_SELLED_STOCK_ERROR,
+                payload: 'Veuillez réessayer plus tard'
+            })
+        }
+    }
+};
+
+export const getStocks = (stationId) =>async(dispatch) =>{
+    dispatch({
+        type: GET_STOCKS_START
+    })
+
+    const token = await secureStore.getItemAsync(TOKEN_NAME);
+    try {
+        const res = await axios.get(`${SERVER_URL}/stocks/stocks/${stationId}`, {
+            headers: {
+                'e-fuel-authtoken': token
+            }
+        });
+        if(res.status === 200){
+            dispatch({
+                type: GET_STOCKS_SUCCESS,
+                payload: res.data.data
+            })
+        }
+    } catch (error) {
+        const res = error.response;
+        if(res){
+            dispatch({
+                type: GET_STOCKS_ERROR,
+                payload: res.data.error
+            })
+        }else{
+            dispatch({
+                type: GET_STOCKS_ERROR,
                 payload: 'Veuillez réessayer plus tard'
             })
         }

@@ -1,6 +1,6 @@
 export default {
     stocks: {
-        dataStocks: [{name: ''}, {name: ''}, {name: ''}, {name: ''}, {name: ''}],
+        dataStocks: [],
         loadingStocks: true,
         error: null
     },

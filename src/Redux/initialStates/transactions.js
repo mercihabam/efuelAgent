@@ -5,5 +5,10 @@ export default {
         dataTrans: {},
         rowsTrans: [],
         countTrans: 0
+    },
+    sell: {
+        loadingSell: false,
+        errorSell: '',
+        msg: null
     }
 }

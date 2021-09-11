@@ -62,15 +62,15 @@ function Routes(){
                 {
                     auth === true ?
                     protectedRoutes.map(route =>(
-                        <Drawer.Screen key={route.name} name={route.name} component={route.component} />
+                        <Drawer.Screen options={{ unmountOnBlur: true }} key={route.name} name={route.name} component={route.component} />
                     )):<>
-                        <Drawer.Screen name='login' component={Login} />
-                        <Drawer.Screen name='signup' component={Signup} />
+                        <Drawer.Screen options={{ unmountOnBlur: true }} name='login' component={Login} />
+                        <Drawer.Screen options={{ unmountOnBlur: true }} name='signup' component={Signup} />
                     </>
                 }
                 {
                     notProtectedRoutes.map(route =>(
-                        <Drawer.Screen key={route.name} name={route.name} component={route.component} />
+                        <Drawer.Screen options={{ unmountOnBlur: true }} key={route.name} name={route.name} component={route.component} />
                     ))
                 }
             </Drawer.Navigator>
