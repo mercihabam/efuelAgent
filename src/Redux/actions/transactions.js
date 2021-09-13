@@ -1,5 +1,5 @@
 import axios from "axios"
-import { GET_TRANSACTIONS_ERROR, GET_TRANSACTIONS_START, GET_TRANSACTIONS_SUCCESS, SELL_ERROR, SELL_START, SELL_SUCCESS } from "../actionsTypes/transactions"
+import { GET_TRANSACTIONS_ERROR, GET_TRANSACTIONS_START, GET_TRANSACTIONS_SUCCESS, RECHARGE_ERROR, RECHARGE_START, RECHARGE_SUCCESS, SELL_ERROR, SELL_START, SELL_SUCCESS } from "../actionsTypes/transactions"
 import { SERVER_URL, TOKEN_NAME } from 'env';
 import * as secureStore from 'expo-secure-store'
 
@@ -69,6 +69,44 @@ export const sellAction = (data) =>async(dispatch, cb) =>{
         }else{
             dispatch({
                 type: SELL_ERROR,
+                payload: 'Veuillez réessayez plus tard'
+            });
+            alert('Veuillez réessayez plus tard')
+        }
+    }
+};
+
+export const rechargeAction = (data) =>async(dispatch, cb) =>{
+    dispatch({
+        type: RECHARGE_START
+    });
+
+    const token = await secureStore.getItemAsync(TOKEN_NAME);
+    try {
+        const res = await axios.post(`${SERVER_URL}/transactions/recharge`, data, {
+            headers: {
+                'e-fuel-authtoken': token
+            }
+        });
+        if(res.status === 200){
+            dispatch({
+                type: RECHARGE_SUCCESS,
+                payload: res.data.msg
+            });
+            cb(true)
+        }
+    } catch (error) {
+        cb(false)
+        const res = error.response;
+        if(res){
+            dispatch({
+                type: RECHARGE_ERROR,
+                payload: res.data.error
+            })
+            alert(res.data.error)
+        }else{
+            dispatch({
+                type: RECHARGE_ERROR,
                 payload: 'Veuillez réessayez plus tard'
             });
             alert('Veuillez réessayez plus tard')

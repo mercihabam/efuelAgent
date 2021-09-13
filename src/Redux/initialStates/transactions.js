@@ -10,5 +10,10 @@ export default {
         loadingSell: false,
         errorSell: '',
         msg: null
+    },
+    recharge: {
+        loadingRecharge: false,
+        errorRecharge: '',
+        msg: null
     }
 }

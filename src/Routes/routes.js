@@ -1,4 +1,5 @@
 import Overview from "../Pages/Overview";
+import RechargePage from "../Pages/Recharge";
 import SellPage from "../Pages/Sell";
 import ViewTransactions from "../Pages/Transactions";
 import { Login } from "../Pages/User/login";
@@ -16,6 +17,13 @@ export const routes = [
         name: 'sell',
         title: 'Vendre un produit',
         component: SellPage,
+        withHeader: true,
+        protected: true
+    },
+    {
+        name: 'recharge',
+        title: 'Recharger un client',
+        component: RechargePage,
         withHeader: true,
         protected: true
     },
