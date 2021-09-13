@@ -2,7 +2,6 @@ import axios from "axios"
 import { GET_TRANSACTIONS_ERROR, GET_TRANSACTIONS_START, GET_TRANSACTIONS_SUCCESS, RECHARGE_ERROR, RECHARGE_START, RECHARGE_SUCCESS, SELL_ERROR, SELL_START, SELL_SUCCESS } from "../actionsTypes/transactions"
 import { SERVER_URL, TOKEN_NAME } from 'env';
 import * as secureStore from 'expo-secure-store'
-import { toastNotif } from "../../Utils/toast";
 import { ToastAndroid } from "react-native";
 
 export const getTransactions = (stationId, agentId, offset, limit, type) =>async(dispatch) =>{
