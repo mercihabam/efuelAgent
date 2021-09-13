@@ -14,7 +14,7 @@ export default (state, {type, payload}) =>{
             return {
                 ...state,
                 recharge: {
-                    ...state.sell,
+                    ...state.recharge,
                     loadingRecharge: false,
                     errorRecharge: '',
                     msg: payload
@@ -25,6 +25,7 @@ export default (state, {type, payload}) =>{
             return {
                 ...state,
                 recharge: {
+                    ...state.recharge,
                     loadingRecharge: false,
                     errorRecharge: payload
                 }

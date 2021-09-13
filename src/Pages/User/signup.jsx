@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { StyleSheet, Text, TextInput, View } from "react-native";
+import { ScrollView, StyleSheet, Text, TextInput, View } from "react-native";
 import { useDispatch, useSelector } from 'react-redux';
 import { signupAction } from '../../Redux/actions/usersActions';
 import { Button } from 'react-native-paper';
@@ -29,7 +29,9 @@ export function Signup({navigation}){
     const errors = error.split(',');
 
     return(
-        <View style={styles.container}>
+        <ScrollView style={{
+            flex: 1
+        }} contentContainerStyle={styles.container}>
             <View style={styles.intro}>
                 <Text style={styles.title}>Insrcivez-vous sur</Text>
                 <Text style={styles.name}>E-FuelPoint</Text>
@@ -59,15 +61,15 @@ export function Signup({navigation}){
                     marginTop: 10
                 }} onPress={() =>navigation.navigate('login')}>Connexion</Text>
             </View>
-        </View>
+        </ScrollView>
     )
 };
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
         justifyContent: 'center',
-        alignItems: 'center'
+        alignItems: 'center',
+        marginTop: '13%'
     },
     intro: {
         width: '75%'

@@ -15,6 +15,7 @@ import { getCurrUser } from "../Redux/actions/usersActions";
 import { color } from "../Themes/color";
 import { getRoute, notProtectedRoutes, protectedRoutes, withHeaderRoutes } from "../Utils/helpers";
 import * as SecureStore from 'expo-secure-store';
+import Toast from "react-native-toast-message";
 
 const Drawer = createDrawerNavigator();
 
@@ -35,46 +36,50 @@ function Routes(){
     }, [dispatch])
 
     return(
-        loadingCurr || loadingCurrSt ?
-        <View style={{
-            flex: 1,
-            justifyContent: 'center',
-            alignItems: 'center'
-        }}>
-            <ActivityIndicator size={70} color={color.orange} />
-        </View>:
-        <NavigationContainer>
-            <Drawer.Navigator screenOptions={{
-                header: ({navigation, route, options}) =>{
-                    const activeRoute = getRoute(route.name);
-                    return (
-                        activeRoute && activeRoute.withHeader ? <NavHeader route={route} navigation={navigation} />:
-                        <StatusBar backgroundColor='black' />
-                    )
-                },
-                drawerStyle: {
-                    backgroundColor: '#595859',
-                    opacity: !auth ? 0: 1
-                }
-            }} initialRouteName='dashboard'  drawerContent={({state, navigation}) =>(
-                auth ? <DrawerContents navigation={navigation} />: null
-            )} >
-                {
-                    auth === true ?
-                    protectedRoutes.map(route =>(
-                        <Drawer.Screen options={{ unmountOnBlur: true }} key={route.name} name={route.name} component={route.component} />
-                    )):<>
-                        <Drawer.Screen options={{ unmountOnBlur: true }} name='login' component={Login} />
-                        <Drawer.Screen options={{ unmountOnBlur: true }} name='signup' component={Signup} />
-                    </>
-                }
-                {
-                    notProtectedRoutes.map(route =>(
-                        <Drawer.Screen options={{ unmountOnBlur: true }} key={route.name} name={route.name} component={route.component} />
-                    ))
-                }
-            </Drawer.Navigator>
-        </NavigationContainer>
+        <>
+        <Toast ref={ref =>Toast.setRef(ref)} />
+        {    
+            loadingCurr || loadingCurrSt ?
+            <View style={{
+                flex: 1,
+                justifyContent: 'center',
+                alignItems: 'center'
+            }}>
+                <ActivityIndicator size={70} color={color.orange} />
+            </View>:
+            <NavigationContainer>
+                <Drawer.Navigator screenOptions={{
+                    header: ({navigation, route, options}) =>{
+                        const activeRoute = getRoute(route.name);
+                        return (
+                            activeRoute && activeRoute.withHeader ? <NavHeader route={route} navigation={navigation} />:
+                            <StatusBar backgroundColor='black' />
+                        )
+                    },
+                    drawerStyle: {
+                        backgroundColor: '#595859',
+                        opacity: !auth ? 0: 1
+                    }
+                }} initialRouteName='dashboard'  drawerContent={({state, navigation}) =>(
+                    auth ? <DrawerContents navigation={navigation} />: null
+                )} >
+                    {
+                        auth === true ?
+                        protectedRoutes.map(route =>(
+                            <Drawer.Screen options={{ unmountOnBlur: true }} key={route.name} name={route.name} component={route.component} />
+                        )):<>
+                            <Drawer.Screen options={{ unmountOnBlur: true }} name='login' component={Login} />
+                            <Drawer.Screen options={{ unmountOnBlur: true }} name='signup' component={Signup} />
+                        </>
+                    }
+                    {
+                        notProtectedRoutes.map(route =>(
+                            <Drawer.Screen options={{ unmountOnBlur: true }} key={route.name} name={route.name} component={route.component} />
+                        ))
+                    }
+                </Drawer.Navigator>
+            </NavigationContainer>}
+        </>
     )
 };
 

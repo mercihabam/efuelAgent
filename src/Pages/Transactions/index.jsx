@@ -18,7 +18,7 @@ function ViewTransactions({navigation}){
     const rKey = navigation.getState().history[0].key
     const [offset, setOffset] = useState(0);
     const [currentPage, setCurrent] = useState(0);
-    const limit = 10;
+    const limit = 5;
 
     useEffect(() =>{
         getTransactions(dataSt.id, agentId(data.Agents, dataSt.id), offset, limit, type)(dispatch)
@@ -30,9 +30,9 @@ function ViewTransactions({navigation}){
             <TransData />
             <DataTable.Pagination
                 page={currentPage}
-                numberOfPages={Math.ceil(countTrans / limit)+1}
+                numberOfPages={Math.ceil(countTrans / limit)}
 
-                onPageChange={page => {setCurrent(page); setOffset((page-1)*limit)}}
+                onPageChange={page => {setCurrent(page); setOffset((page)*limit)}}
                 numberOfItemsPerPage={limit}
                 selectPageDropdownLabel={'Rows per page'}
             />

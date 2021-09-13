@@ -10,7 +10,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { agentId } from '../../Utils/helpers';
 import Loader, { FacebookLoader } from 'react-native-easy-content-loader';
 import { TouchableOpacity } from 'react-native';
-// import SkeletonLoader from 'react-native-skeleton-loader';
 
 const trs = [
     {
@@ -33,12 +32,12 @@ const trs = [
 export function Transactions({type, navigation}){
     const { data } = useSelector(({ users: { currUser } }) =>currUser);
     const { dataSt } = useSelector(({ stations: {currStation} }) =>currStation);
-    const { rowsTrans, loadingTrans } = useSelector(({ transactions: {transactions} }) =>transactions);
+    const { rowsTrans, countTrans, loadingTrans } = useSelector(({ transactions: {transactions} }) =>transactions);
     const dispatch = useDispatch();
     const rKey = navigation.getState().history[0].key
 
     useEffect(() =>{
-        getTransactions(dataSt.id, agentId(data.Agents, dataSt.id), 0, 10, type)(dispatch)
+        getTransactions(dataSt.id, agentId(data.Agents, dataSt.id), 0, 5, type)(dispatch)
     }, [data, dataSt, type, rKey])
 
     return(
@@ -129,16 +128,19 @@ export function Transactions({type, navigation}){
                             </View>
                         ))
                     }
-                    <View>
-                        <TouchableOpacity onPress={() => navigation.navigate('transactions')}>
-                            <Text style={{
-                                color: 'rgba(0, 0, 0, 0.6)',
-                                textAlign: 'right', 
-                                paddingHorizontal: 20,
-                                marginTop: 20
-                            }}>Voir plus <AntIcon name='right' /> </Text>
-                        </TouchableOpacity>
-                    </View>
+                    {
+                        countTrans > 5 &&
+                        <View>
+                            <TouchableOpacity onPress={() => navigation.navigate('transactions')}>
+                                <Text style={{
+                                    color: 'rgba(0, 0, 0, 0.6)',
+                                    textAlign: 'right', 
+                                    paddingHorizontal: 20,
+                                    marginTop: 20
+                                }}>Voir plus <AntIcon name='right' /> </Text>
+                            </TouchableOpacity>
+                        </View>
+                    }
                 </View>
             }
         </ScrollView>

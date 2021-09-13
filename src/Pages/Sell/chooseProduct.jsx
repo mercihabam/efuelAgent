@@ -4,6 +4,7 @@ import React, { useEffect, useState } from "react"
 import { TouchableOpacity } from "react-native";
 import { StyleSheet, Text, View } from "react-native"
 import { Button } from "react-native-paper";
+import Toast from "react-native-toast-message";
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import { useDispatch, useSelector } from "react-redux";
 import { getStocks } from "../../Redux/actions/stocksActions";
@@ -13,7 +14,7 @@ import { SuccessModal } from "../../Utils/messages";
 import { QrScanner } from "./qrCodeScanner";
 import { SellForm } from "./sellForm";
 
-export function ChooseProduct(){
+export function ChooseProduct({navigation}){
     const [selectValue, setSelectedValue] = useState('');
     const [dataScanned, setData] = useState('');
     const [viewScan, setViewScan] = useState();
@@ -21,7 +22,7 @@ export function ChooseProduct(){
     const [ amount, setAmount ] = useState();
     const {dataStocks, loadingStocks} = useSelector(({ stocks: {stocks} }) =>stocks);
     const { dataSt } = useSelector(({ stations: {currStation} }) =>currStation);
-    const { msg } = useSelector(({ transactions: { sell } }) =>sell);
+    const { msg, errorSell } = useSelector(({ transactions: { sell } }) =>sell);
     const dispatch = useDispatch();
     const stk = selectValue ? JSON.parse(selectValue): { name: '', id: '' };
     const [ success, setSuccess ] = useState(false);
@@ -38,10 +39,10 @@ export function ChooseProduct(){
                 amount: amount,
                 stationId: dataSt.id
             })(dispatch, cb =>{
-                setSuccess(cb)
+                if(cb === true){
+                    navigation.navigate('dashboard')
+                }
             })
-        }else{
-            console.log(amount, stk);
         }
     }
 
@@ -69,25 +70,25 @@ export function ChooseProduct(){
                 <Button
                     color="#F27405"
                     style={styles.select}
+                    disabled={loadingStocks}
                     icon='chevron-down'
                     uppercase={false}
                     loading={loadingStocks}
-                    onPress={() => {
-                        if (pickerRef) {
-                            pickerRef.current.focus();
-                        }
-                    }}
+                    onPress={() =>pickerRef.current.focus()}
                 >
                     {stk.name}
                 </Button>
                 <Picker
-                    onValueChange={(value, index) =>setSelectedValue(value)}
+                    onValueChange={(value) =>setSelectedValue(value)}
                     selectedValue={selectValue}
                     style={{
                         display: 'none'
                     }}
                     ref={pickerRef}
                 >
+                    <Picker.Item key='f' style={{
+                        color: 'rgba(0, 0, 0, 0.5)'
+                    }} label='choisir le stock' value='' disabled />
                     {
                         dataStocks.map(stock =>(
                             <Picker.Item key={stock.id} label={stock.name} value={JSON.stringify(stock)} />

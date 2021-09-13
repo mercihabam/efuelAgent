@@ -2,6 +2,8 @@ import axios from "axios"
 import { GET_TRANSACTIONS_ERROR, GET_TRANSACTIONS_START, GET_TRANSACTIONS_SUCCESS, RECHARGE_ERROR, RECHARGE_START, RECHARGE_SUCCESS, SELL_ERROR, SELL_START, SELL_SUCCESS } from "../actionsTypes/transactions"
 import { SERVER_URL, TOKEN_NAME } from 'env';
 import * as secureStore from 'expo-secure-store'
+import { toastNotif } from "../../Utils/toast";
+import { ToastAndroid } from "react-native";
 
 export const getTransactions = (stationId, agentId, offset, limit, type) =>async(dispatch) =>{
     dispatch({
@@ -55,28 +57,29 @@ export const sellAction = (data) =>async(dispatch, cb) =>{
                 type: SELL_SUCCESS,
                 payload: res.data.msg
             });
+            ToastAndroid.show(res.data.msg, ToastAndroid.LONG)
             cb(true)
         }
     } catch (error) {
-        cb(false)
         const res = error.response;
         if(res){
             dispatch({
                 type: SELL_ERROR,
                 payload: res.data.error
-            })
-            alert(res.data.error)
+            });
+            ToastAndroid.show(res.data.error, ToastAndroid.LONG)
         }else{
             dispatch({
                 type: SELL_ERROR,
                 payload: 'Veuillez réessayez plus tard'
             });
-            alert('Veuillez réessayez plus tard')
+            ToastAndroid.show('Veuillez réessayez plus tard', ToastAndroid.LONG)
         }
+        cb(false)
     }
 };
 
-export const rechargeAction = (data) =>async(dispatch, cb) =>{
+export const rechargeAction = (data) =>async(dispatch, cb=null) =>{
     dispatch({
         type: RECHARGE_START
     });
@@ -93,23 +96,24 @@ export const rechargeAction = (data) =>async(dispatch, cb) =>{
                 type: RECHARGE_SUCCESS,
                 payload: res.data.msg
             });
-            cb(true)
+            cb(true);
+            ToastAndroid.show(res.data.msg, ToastAndroid.LONG)
         }
     } catch (error) {
-        cb(false)
         const res = error.response;
         if(res){
             dispatch({
                 type: RECHARGE_ERROR,
                 payload: res.data.error
             })
-            alert(res.data.error)
+            ToastAndroid.show(res.data.error, ToastAndroid.LONG)
         }else{
             dispatch({
                 type: RECHARGE_ERROR,
                 payload: 'Veuillez réessayez plus tard'
             });
-            alert('Veuillez réessayez plus tard')
         }
+        ToastAndroid.show(res.data.msg, 'Veuillez réessayez plus tard');
+        cb(false)
     }
 }

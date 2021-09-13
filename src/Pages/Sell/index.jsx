@@ -1,13 +1,12 @@
 import React from 'react';
 import { ScrollView } from 'react-native';
-import { Text, View } from 'react-native';
 import { ChooseProduct } from './chooseProduct';
 
-function SellPage(){
+function SellPage({navigation}){
 
     return(
         <ScrollView>
-            <ChooseProduct />
+            <ChooseProduct navigation={navigation} />
         </ScrollView>
     )
 };

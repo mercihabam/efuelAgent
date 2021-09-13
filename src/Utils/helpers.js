@@ -1,5 +1,6 @@
 import { routes } from "../Routes/routes";
 import base64 from "react-native-base64";
+import { ToastAndroid } from "react-native";
 
 export const protectedRoutes = routes.filter(route => route.protected);
 export const withHeaderRoutes = routes.filter(route => route.withHeader);
@@ -16,5 +17,9 @@ export function agentId(agents, stationId){
 };
 
 export function base64Tostr( str ) {
-    return base64.decode(str)
+    try {
+        return base64.decode(str)
+    } catch (error) {
+        ToastAndroid.show('Invalid Qr code', ToastAndroid.LONG)
+    }
 }
