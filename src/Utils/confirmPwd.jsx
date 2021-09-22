@@ -66,7 +66,7 @@ export function ConfirmModal({visible, setVisible, cb}) {
                 <Text style={styles.modalTitle}> Veuillez confirmer votre mot de passe pour executer l'opération </Text>
                 <View>
                     <Text style={{ color: color.red, marginHorizontal: 10, textAlign: 'center' }}> {msg} </Text>
-                    <TextInput keyboardType='number-pad'  onChangeText={setPwd} style={styles.input} placeholder='Entrer votre mot de passe' />
+                    <TextInput secureTextEntry  onChangeText={setPwd} style={styles.input} placeholder='Entrer votre mot de passe' />
                 </View>
                 <View style={{
                     display: 'flex',
