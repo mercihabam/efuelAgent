@@ -3,16 +3,25 @@ import { LinearGradient } from "expo-linear-gradient";
 import { ActivityIndicator, StyleSheet, Text, TextInput, View } from 'react-native';
 import { useSelector } from 'react-redux';
 import { TouchableOpacity } from 'react-native';
+import { ConfirmModal } from '../../Utils/confirmPwd';
+import { useState } from 'react';
 
-export function SellForm({setData, setAmount, onSubmit}){
+export function SellForm({setData, setAmount, onSubmit, amount, stock}){
     const { msg, errorSell, loadingSell } = useSelector(({ transactions: { sell } }) =>sell);
+    const [visible, setVisible] = useState(false);
+
+    const viewConfirm = () =>{
+        if(amount && stock){
+            setVisible(true)
+        }
+    }
 
     return(
         <View style={{
             alignItems: 'center'
         }}>
             <TextInput keyboardType='number-pad'  onChangeText={setAmount} style={styles.input} placeholder='Entrer la quantité' />
-            <TouchableOpacity disabled={loadingSell} onPress={onSubmit}>
+            <TouchableOpacity disabled={loadingSell} onPress={viewConfirm}>
                 <LinearGradient
                     colors={['#F27405', '#595859']}
                     style={styles.sellBtn}>
@@ -30,6 +39,7 @@ export function SellForm({setData, setAmount, onSubmit}){
                     color: '#039be5',
                     marginTop: 40
                 }} onPress={() =>setData(null)}>Scanner encore</Text>
+            <ConfirmModal visible={visible} setVisible={setVisible} cb={onSubmit} />
         </View>
     )
 };

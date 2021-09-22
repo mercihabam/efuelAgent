@@ -51,7 +51,7 @@ export function ChooseProduct({navigation}){
                 marginTop: 50
             }}>
                 {
-                    dataScanned ? <SellForm onSubmit={onSell} setData={setData} setAmount={setAmount} />:
+                    dataScanned ? <SellForm amount={amount} onSubmit={onSell} setData={setData} setAmount={setAmount} />:
                     <>
                         <Text style={{
                         textAlign: 'center'
