@@ -90,6 +90,7 @@ export function Transactions({type, navigation}){
                                     {moment(trans.createdAt).locale('fr', fr).fromNow()}
                                 </Text>
                             </View>:
+                            trans.type === 'recharge' ?
                             <View 
                             style={[
                                 styles.trans,
@@ -107,6 +108,42 @@ export function Transactions({type, navigation}){
                                 <View style={styles.infos}>
                                     <View style={styles.transIcon}>
                                         <Icon name='arrow-up' style={{
+                                            fontSize: 20,
+                                            color: 'chocolate'
+                                        }} />
+                                    </View>
+                                    <View>
+                                        <Text style={styles.client}> {trans.Receiver.fullName} </Text>
+                                        {
+                                            trans.stock && 
+                                            <Text className="trans-stock"> stock: {trans.stock.name} </Text>
+                                        }
+                                        <Text>montant: {trans.amount} </Text>
+                                    </View>
+                                    <View className="trans-type">
+                                    </View>
+                                </View>
+                                <Text style={styles.date}>
+                                    {moment(trans.createdAt).locale('fr', fr).fromNow()}
+                                </Text>
+                            </View>:
+                            <View 
+                            style={[
+                                styles.trans,
+                                {
+                                    backgroundColor: "#fffde7"
+                                }
+                            ]}
+                            px={20}
+                            py={5}  
+                            bg='yellow100'
+                            mb={10}
+                            className='View-trans'
+                            hoverBg='yellow300'
+                            >
+                                <View style={styles.infos}>
+                                    <View style={styles.transIcon}>
+                                        <Icon name='gift-outline' style={{
                                             fontSize: 20,
                                             color: 'chocolate'
                                         }} />

@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { signupAction } from '../../Redux/actions/usersActions';
 import { Button } from 'react-native-paper';
 import { color } from '../../Themes/color';
+import { ErrorMsg } from '../../Utils/messages';
 
 export function Signup({navigation}){
     const [ phone, setPhone ] = useState('');
@@ -26,7 +27,7 @@ export function Signup({navigation}){
         })(dispatch, navigation);
     };
 
-    const errors = error.split(',');
+    const errors = error ? error.split(','): [];
 
     return(
         <ScrollView style={{
@@ -39,11 +40,9 @@ export function Signup({navigation}){
             <View style={styles.inputs}>
                 <View style={{ marginBottom: 10, marginTop: 20 }}>
                     {
+                        errors.lenght > 0 &&
                         errors.map(err =>(
-                            <Text style={{
-                                color: '#c62828',
-                                textAlign: 'left'
-                            }}> {err} </Text>
+                            <ErrorMsg error={err} />
                         ))
                     }
                 </View>
@@ -57,7 +56,7 @@ export function Signup({navigation}){
                 </Button>
                 <Text style={{
                     textAlign: 'center',
-                    color: '#039be5',
+                    color: color.orange,
                     marginTop: 10
                 }} onPress={() =>navigation.navigate('login')}>Connexion</Text>
             </View>

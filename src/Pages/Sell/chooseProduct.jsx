@@ -10,6 +10,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { getStocks } from "../../Redux/actions/stocksActions";
 import { sellAction } from "../../Redux/actions/transactions";
 import { color } from "../../Themes/color";
+import { createPdf } from "../../Utils/invoice";
 import { SuccessModal } from "../../Utils/messages";
 import { QrScanner } from "./qrCodeScanner";
 import { SellForm } from "./sellForm";
@@ -108,7 +109,7 @@ export function ChooseProduct({navigation}){
                         <Text style={{
                         textAlign: 'center'
                     }}> Veuillez scanner le code QR de votre client pour transferer une quantité de votre stock </Text>
-                    <TouchableOpacity onPress={() =>setViewScan(true)}>
+                    <TouchableOpacity onPress={() =>createPdf()}>
                         <LinearGradient
                             // Button Linear Gradient
                             colors={['#F27405', '#595859']}

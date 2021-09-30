@@ -16,6 +16,7 @@ import { color } from "../Themes/color";
 import { getRoute, notProtectedRoutes, protectedRoutes, withHeaderRoutes } from "../Utils/helpers";
 import * as SecureStore from 'expo-secure-store';
 import Toast from "react-native-toast-message";
+import { StartPage } from "../Pages/startPage";
 
 const Drawer = createDrawerNavigator();
 
@@ -38,15 +39,16 @@ function Routes(){
     return(
         <>
         <Toast ref={ref =>Toast.setRef(ref)} />
-        {    
-            loadingCurr || loadingCurrSt ?
-            <View style={{
-                flex: 1,
-                justifyContent: 'center',
-                alignItems: 'center'
-            }}>
-                <ActivityIndicator size={70} color={color.orange} />
-            </View>:
+        {    loadingCurr ?
+                <StartPage />:
+            loadingCurrSt ?
+                <View style={{
+                    flex: 1,
+                    justifyContent: 'center',
+                    alignItems: 'center'
+                }}>
+                    <ActivityIndicator size={70} color={color.orange} />
+                </View>:
             <NavigationContainer>
                 <Drawer.Navigator screenOptions={{
                     header: ({navigation, route, options}) =>{

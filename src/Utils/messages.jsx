@@ -3,6 +3,7 @@ import { ScrollView } from 'react-native';
 import { TouchableOpacity } from 'react-native';
 import { Modal, StyleSheet, Text, Pressable, View } from "react-native";
 import Icon from 'react-native-vector-icons/AntDesign';
+import MIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { color } from '../Themes/color';
 
 export function SuccessModal({visible, setVisible, msg}) {
@@ -46,6 +47,27 @@ export function SuccessModal({visible, setVisible, msg}) {
     </View>
   );
 };
+
+export function ErrorMsg({error}){
+
+  return(
+      <View style={{
+        backgroundColor: 'rgba(255, 0, 0, 0.05)',
+        paddingHorizontal: 10,
+        paddingVertical: 5,
+        borderColor: color.red,
+        borderWidth: 0.5,
+        flexDirection: 'row',
+        alignItems: 'center'
+    }}>
+        <MIcon name='close' color='white' style={{ backgroundColor: color.red, borderRadius: 20, marginRight: 10 }} />
+        <Text key={error} style={{
+            color: '#c62828',
+            
+        }}> {error} </Text>
+  </View>
+  );
+}
 
 const styles = StyleSheet.create({
     centeredView: {

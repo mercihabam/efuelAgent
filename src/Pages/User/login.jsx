@@ -5,6 +5,8 @@ import { loginAction } from '../../Redux/actions/usersActions';
 import { Button } from 'react-native-paper';
 import { color } from '../../Themes/color';
 import { ModalStation } from './stationModal';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import { ErrorMsg } from '../../Utils/messages';
 
 export function Login({navigation}){
     const [id, setId] = useState('');
@@ -24,7 +26,7 @@ export function Login({navigation}){
         }))
     };
 
-    const errors = error.split(',');
+    const errors = error ? error.split(','): [];
 
     return(
         <View style={styles.container}>
@@ -36,9 +38,7 @@ export function Login({navigation}){
                 <View style={{ marginBottom: 20 }}>
                     {
                         errors.map(err =>(
-                            <Text key={err} style={{
-                                color: '#c62828'
-                            }}> {err} </Text>
+                            <ErrorMsg error={err} />
                         ))
                     }
                 </View>
@@ -49,7 +49,7 @@ export function Login({navigation}){
                 </Button>
                 <Text style={{
                     textAlign: 'center',
-                    color: '#039be5',
+                    color: color.orange,
                     marginTop: 10
                 }} onPress={() =>navigation.navigate('signup')}>Créer un compte</Text>
             </View>

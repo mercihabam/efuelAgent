@@ -26,7 +26,7 @@ export const loginAction = (data) => async(dispatch, cb) =>{
         if(res){
             dispatch({
                 type: LOGIN_ERROR,
-                payload: res.data.error
+                payload: res.data.error || error.message
             })
         }else{
             dispatch({
@@ -90,7 +90,7 @@ export const signupAction = (data) => async(dispatch, navigation) =>{
         if(res){
             dispatch({
                 type: SIGNUP_ERROR,
-                payload: res.data.error
+                payload: res.data.error || error.message
             })
         }else{
             dispatch({
