@@ -10,19 +10,18 @@ import { agentId } from '../../Utils/helpers';
 import moment from 'moment';
 
 export function OverTitle({selectValue, setSelectedValue}){
-    const [active, setActive] = useState('week');
+    const [active, setActive] = useState('day');
     const pickerRef = React.createRef();
     const {dataStock} = useSelector(({ stocks: {selled} }) =>selled);
     const [totalSelled, setTotalSelled] = useState();
     const hrs = new Date().setHours(0, 0, 0, 0);
     const date = new Date(hrs);
-    const day = date.getDay();
-    const monDiff = date.getDate() - day + (day === 0 ? -6: 1);
-    const monday = date.setDate(monDiff);
-    const mondayFormated = moment(monday).format();
     const today = moment().format();
-    const firstDay = moment(new Date(date.getFullYear(), date.getMonth(), 1)).format();
-    const lastDay = moment(new Date(date.getFullYear(), date.getMonth() + 1, 0)).format();
+    const dt = new Date(hrs);
+    const td = new Date(hrs);
+    const tommorrow = new Date(dt.setDate(dt.getDate()+1));
+    const firstDay = moment(new Date(date.getFullYear(), new Date().getMonth(), 1)).format();
+    const lastDay = moment(new Date(date.getFullYear(), new Date().getMonth() + 1, 0)).format();
     const startYear = moment(new Date(date.getFullYear(), 0, 1)).format();
     const dispatch = useDispatch();
     const { data } = useSelector(({ users: { currUser } }) =>currUser);
@@ -31,7 +30,7 @@ export function OverTitle({selectValue, setSelectedValue}){
     useEffect(() =>{
         (() =>{
             if(dataStock){
-                setTotalSelled(dataStock.reduce((add, curr) => (parseFloat(add) + parseFloat(curr.amount || 0)), 0))
+                setTotalSelled(dataStock.reduce((add, curr) => (parseFloat(add) + parseFloat(curr.amount || 0)), 0));
             }
         })()
     }, [dataStock]);
@@ -43,10 +42,11 @@ export function OverTitle({selectValue, setSelectedValue}){
                     getSelledStocks(dataSt.id, agentId(data.Agents, dataSt.id), startYear, today)(dispatch);
                     break;
                 case 'month':
-                    getSelledStocks(dataSt.id, agentId(data.Agents, dataSt.id), firstDay, lastDay)(dispatch)
+                    getSelledStocks(dataSt.id, agentId(data.Agents, dataSt.id), firstDay, lastDay)(dispatch);
                     break;
                 default:
-                    getSelledStocks(dataSt.id, agentId(data.Agents, dataSt.id), mondayFormated, today)(dispatch)
+                    getSelledStocks(dataSt.id, agentId(data.Agents, dataSt.id), moment(td).format(), moment(tommorrow).format())(dispatch);
+                    console.log(tommorrow);
             }
         })()
     }, [dispatch, active]);
@@ -94,12 +94,12 @@ export function OverTitle({selectValue, setSelectedValue}){
                             { textAlign: 'center', fontSize: 10 }
                         ]}>MOIS</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity style={[ styles.date, active === 'week' && {
+                    <TouchableOpacity style={[ styles.date, active === 'day' && {
                         backgroundColor: '#F27405'
-                    } ]} onPress={() =>setActive('week')}>
+                    } ]} onPress={() =>setActive('day')}>
                         <Text style={[
                             { textAlign: 'center', fontSize: 10 }
-                        ]}>SEMAINE</Text>
+                        ]}>AJOURD'HUI</Text>
                     </TouchableOpacity>
                 </View>
             </View>
