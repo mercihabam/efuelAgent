@@ -27,6 +27,7 @@ export function ChooseProduct({navigation}){
     const dispatch = useDispatch();
     const stk = selectValue ? JSON.parse(selectValue): { name: '', id: '' };
     const [ success, setSuccess ] = useState(false);
+    const { data } = useSelector(({ transactions: { sell } }) =>sell);
 
     useEffect(() =>{
         getStocks(dataSt.id)(dispatch)
@@ -41,7 +42,7 @@ export function ChooseProduct({navigation}){
                 stationId: dataSt.id
             })(dispatch, cb =>{
                 if(cb === true){
-                    navigation.navigate('dashboard')
+                    setSuccess(true)
                 }
             })
         }
@@ -49,7 +50,7 @@ export function ChooseProduct({navigation}){
 
     return(
         <View>
-            <SuccessModal visible={success} setVisible={setSuccess} msg={msg} />
+            <SuccessModal trans={data} visible={success} navigation={navigation} setVisible={setSuccess} msg="Transaction effectuée avec succès, Voulez-vous enregistrer la facture ?" />
             <View style={{
                 marginTop: 40
             }}>
@@ -109,7 +110,7 @@ export function ChooseProduct({navigation}){
                         <Text style={{
                         textAlign: 'center'
                     }}> Veuillez scanner le code QR de votre client pour transferer une quantité de votre stock </Text>
-                    <TouchableOpacity onPress={() =>createPdf()}>
+                    <TouchableOpacity onPress={() =>setViewScan(true)}>
                         <LinearGradient
                             // Button Linear Gradient
                             colors={['#F27405', '#595859']}

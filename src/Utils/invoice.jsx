@@ -6,8 +6,9 @@ import * as FileSystem from 'expo-file-system';
 import { Platform, ToastAndroid } from 'react-native';
 import { Asset } from 'expo-asset';
 import { StorageAccessFramework } from 'expo-file-system';
+import moment from 'moment';
 
-function html(img){
+function html(trans, station){
     return(
         `<!DOCTYPE html>
 <html lang="en">
@@ -33,21 +34,21 @@ function html(img){
             <div>+243977426917</div>
             <div>efuelpoint@contact.com</div>
         </div>
-        <h1>#01</h1>
+        <h1>#${trans.id}</h1>
     </header>
     <main>
-        <div style="font-weight: bold; margin-bottom: 20px">STATION IHUSI</div>
+        <div style="font-weight: bold; margin-bottom: 20px; text-transform: upper-case;">STATION : ${station}</div>
         <div style="display: flex; justify-content: space-between; margin-bottom: 5px">
-            <div>Client :</div>
-            <div>Merci Jacob</div>
+            <div>Nom du client :</div>
+            <div>${trans.Client.fullName}</div>
         </div>
         <div style="display: flex; justify-content: space-between; margin-bottom: 5px">
             <div>Montant :</div>
-            <div>2</div>
+            <div> ${trans.amount} </div>
         </div>
         <div style="display: flex; justify-content: space-between; margin-bottom: 5px">
             <div>Date :</div>
-            <div>30/09/2021 16:00</div>
+            <div> ${ moment(trans.createdAt).format('L LT') } </div>
         </div>
     </main>
 </body>
@@ -66,28 +67,27 @@ const copyFromAsset = async(asset) =>{
     }
 }
 
-export async function createPdf(){
+export async function createPdf(trans, stationName){
     try {
-        const img = await copyFromAsset(logo);
         let album = await MediaLibrary.getAlbumAsync('efuelInvoice');
-        const { uri, base64 } = await Print.printToFileAsync({ html: html(img),  width: 300, height: 400});
+        const { uri, base64 } = await Print.printToFileAsync({ html: html(trans, stationName),  width: 300, height: 400});
         if(Platform.OS === 'ios'){
             await Sharing.shareAsync(uri)
         }else{
             const permission = await MediaLibrary.requestPermissionsAsync();
-            const permissions = await StorageAccessFramework.requestDirectoryPermissionsAsync('/');
+            const permissions = await StorageAccessFramework.requestDirectoryPermissionsAsync();
             if(permissions.granted){
                 const dirUri = permissions.directoryUri;
                 let invoiceDir = StorageAccessFramework.getUriForDirectoryInRoot('efuelinvoice');
-                console.log(invoiceDir);
                 if(invoiceDir){
-                    const file = await StorageAccessFramework.createFileAsync(`${invoiceDir}`, 'invoice', 'application/pdf' );
+                    const file = await StorageAccessFramework.createFileAsync(`${dirUri}/${invoiceDir}`, 'invoice', 'application/pdf' );
                     const data = await FileSystem.readAsStringAsync(uri, { encoding: 'base64' });
                     await StorageAccessFramework.writeAsStringAsync(file, data, { encoding: 'base64' });
                 }else{
                     invoiceDir = await StorageAccessFramework.makeDirectoryAsync(dirUri, 'efuelinvoice');
-                    const file = await StorageAccessFramework.createFileAsync(`${invoiceDir}`, 'invoice', 'application/pdf' );
-                    await StorageAccessFramework.writeAsStringAsync(file, base64, { encoding: 'base64' });
+                    const file = await StorageAccessFramework.createFileAsync(`${dirUri}/${invoiceDir}`, 'invoice', 'application/pdf' );
+                    const data = await FileSystem.readAsStringAsync(uri, { encoding: 'base64' });
+                    await StorageAccessFramework.writeAsStringAsync(file, data, { encoding: 'base64' });
                 }
                 ToastAndroid.showWithGravity('Facture enregistree en pdf', 10000, ToastAndroid.CENTER)
             }

@@ -54,9 +54,8 @@ export const sellAction = (data) =>async(dispatch, cb) =>{
         if(res.status === 200){
             dispatch({
                 type: SELL_SUCCESS,
-                payload: res.data.msg
+                payload: res.data.data
             });
-            ToastAndroid.show(res.data.msg, ToastAndroid.LONG)
             cb(true)
         }
     } catch (error) {

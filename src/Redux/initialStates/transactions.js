@@ -9,7 +9,8 @@ export default {
     sell: {
         loadingSell: false,
         errorSell: '',
-        msg: null
+        msg: null,
+        data: { Client: {} }
     },
     recharge: {
         loadingRecharge: false,

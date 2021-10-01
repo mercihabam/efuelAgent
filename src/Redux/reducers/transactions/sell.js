@@ -17,7 +17,7 @@ export default (state, {type, payload}) =>{
                     ...state.sell,
                     loadingSell: false,
                     errorSell: '',
-                    msg: payload
+                    data: payload
                 }
             };
 

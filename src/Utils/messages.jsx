@@ -4,11 +4,18 @@ import { TouchableOpacity } from 'react-native';
 import { Modal, StyleSheet, Text, Pressable, View } from "react-native";
 import Icon from 'react-native-vector-icons/AntDesign';
 import MIcon from 'react-native-vector-icons/MaterialCommunityIcons';
+import { useSelector } from 'react-redux';
 import { color } from '../Themes/color';
+import { createPdf } from './invoice';
 
-export function SuccessModal({visible, setVisible, msg}) {
+export function SuccessModal({visible, setVisible, msg, navigation, trans}) {
+  const { dataSt } = useSelector(({ stations: {currStation} }) =>currStation);
 
-  const hideModal = () => setVisible(false);
+  const hideModal = () => {setVisible(false); navigation.navigate('dashboard')};
+  const onSave = () =>{
+    createPdf(trans, dataSt.name);
+    navigation.navigate('dashboard')
+  }
 
   return (
     <View>
@@ -31,16 +38,32 @@ export function SuccessModal({visible, setVisible, msg}) {
                   textAlign: 'center'
               }} />
             <Text style={styles.modalTitle}> { msg } </Text>
-            <TouchableOpacity onPress={hideModal} style={{
-                display: 'flex',
-                flexDirection: 'row',
-                justifyContent: 'flex-end',
-                marginTop: 20
-            }}>
-                <Text style={{
-                    color: color.red
-                }}> <Icon name='close' /> Fermer </Text>
-            </TouchableOpacity>
+            <View style={{ width: '100%', flexDirection: 'row', justifyContent: 'flex-end' }}>
+              <TouchableOpacity onPress={hideModal} style={{
+                  display: 'flex',
+                  flexDirection: 'row',
+                  justifyContent: 'flex-end',
+                  marginTop: 20
+              }}>
+                  <Text style={{
+                      color: color.red
+                  }}> <Icon name='close' /> Fermer </Text>
+              </TouchableOpacity>
+
+              <TouchableOpacity onPress={() =>onSave()} style={{
+                  marginTop: 20,
+                  marginLeft: 10,
+                  borderColor: color.primary,
+                  borderWidth: 1,
+                  borderRadius: 20,
+                  paddingBottom: 2,
+                  paddingHorizontal: 5
+              }}>
+                  <Text style={{
+                      color: color.primary
+                  }}> <Icon name='download' /> Enregistrer </Text>
+              </TouchableOpacity>
+            </View>
           </ScrollView>
         </ScrollView>
       </Modal>
