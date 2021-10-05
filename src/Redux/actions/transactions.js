@@ -95,6 +95,7 @@ export const rechargeAction = (data) =>async(dispatch, cb=null) =>{
                 payload: res.data.msg
             });
             cb(true);
+            console.log(res.data);
             ToastAndroid.show(res.data.msg, ToastAndroid.LONG)
         }
     } catch (error) {
@@ -111,7 +112,7 @@ export const rechargeAction = (data) =>async(dispatch, cb=null) =>{
                 payload: 'Veuillez réessayez plus tard'
             });
         }
-        ToastAndroid.show(res.data.msg, 'Veuillez réessayez plus tard');
+        ToastAndroid.show('Veuillez réessayez plus tard', ToastAndroid.LONG);
         cb(false)
     }
 }
