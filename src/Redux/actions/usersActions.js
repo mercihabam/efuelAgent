@@ -2,6 +2,7 @@ import axios from "axios";
 import { GET_CURR_USER_ERROR, GET_CURR_USER_START, GET_CURR_USER_SUCCESS, LOGIN_ERROR, LOGIN_START, LOGIN_SUCCESS, SIGNUP_ERROR, SIGNUP_START, SIGNUP_SUCCESS } from "../actionsTypes/users";
 import { SERVER_URL, TOKEN_NAME } from 'env';
 import * as SecureStore from 'expo-secure-store';
+import { ToastAndroid } from "react-native";
 
 export const loginAction = (data) => async(dispatch, cb) =>{
     dispatch({
@@ -83,7 +84,8 @@ export const signupAction = (data) => async(dispatch, navigation) =>{
                 type: SIGNUP_SUCCESS,
                 payload: res.data.data.user
             });
-            navigation.navigate('login')
+            navigation.navigate('login');
+            ToastAndroid.show("Votre inscription a réussi, veuillez vous connecter", ToastAndroid.LONG)
         }
     } catch (error) {
         const res = error.response;

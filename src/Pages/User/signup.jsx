@@ -40,17 +40,16 @@ export function Signup({navigation}){
             <View style={styles.inputs}>
                 <View style={{ marginBottom: 10, marginTop: 20 }}>
                     {
-                        errors.lenght > 0 &&
                         errors.map(err =>(
-                            <ErrorMsg error={err} />
+                            <ErrorMsg error={err} key={err} />
                         ))
                     }
                 </View>
                 <TextInput onChangeText={setName} style={styles.input} placeholder='Nom complet' />
-                <TextInput onChangeText={setEmail} style={styles.input} placeholder='Email' />
-                <TextInput onChangeText={setPhone} style={styles.input} placeholder='Numéro de téléphone' />
-                <TextInput style={styles.input} onChangeText={setPwd} secureTextEntry={true} placeholder='Mot de passe' textContentType='password' />
-                <TextInput style={styles.input} onChangeText={setConfirm} secureTextEntry={true} placeholder='Confirmer mot de passe' textContentType='password' />
+                <TextInput onChangeText={setEmail} keyboardType="email-address" style={styles.input} placeholder='Email' />
+                <TextInput onChangeText={setPhone} keyboardType='phone-pad' style={styles.input} placeholder='Numéro de téléphone' />
+                <TextInput style={styles.input} onChangeText={setPwd} secureTextEntry={true} keyboardType='numeric' placeholder='Code secret à 4 chiffres' textContentType='password' />
+                <TextInput style={styles.input} onChangeText={setConfirm} secureTextEntry={true} keyboardType='numeric' placeholder='Confirmer le code secret' textContentType='password' />
                 <Button color='white' loading={loading} onPress={submit} block style={styles.button}  >
                     s'incrire
                 </Button>
@@ -68,7 +67,8 @@ const styles = StyleSheet.create({
     container: {
         justifyContent: 'center',
         alignItems: 'center',
-        marginTop: '13%'
+        marginTop: '13%',
+        paddingBottom: 80
     },
     intro: {
         width: '75%'

@@ -43,7 +43,7 @@ export function Login({navigation}){
                     }
                 </View>
                 <TextInput onChangeText={setId} style={styles.input} placeholder='Email ou numero de telephone' />
-                <TextInput style={styles.input} onChangeText={setPwd} secureTextEntry={true} placeholder='Mot de passe' textContentType='password' />
+                <TextInput keyboardType='numeric' style={styles.input} onChangeText={setPwd} secureTextEntry={true} placeholder='Code secret' textContentType='password' />
                 <Button color='white' loading={loading} onPress={submit} block style={styles.button}  >
                     se connecter
                 </Button>

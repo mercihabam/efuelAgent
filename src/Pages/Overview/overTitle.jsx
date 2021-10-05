@@ -46,7 +46,6 @@ export function OverTitle({selectValue, setSelectedValue}){
                     break;
                 default:
                     getSelledStocks(dataSt.id, agentId(data.Agents, dataSt.id), moment(td).format(), moment(tommorrow).format())(dispatch);
-                    console.log(tommorrow);
             }
         })()
     }, [dispatch, active]);
@@ -65,7 +64,7 @@ export function OverTitle({selectValue, setSelectedValue}){
                         }
                     }}
                 >
-                    {selectValue === 'consumption' ? 'vente': selectValue==='all' ? 'tous': selectValue }
+                    {selectValue === 'consumption' ? 'Vente': selectValue==='all' ? 'Tous': selectValue }
                 </Button>
                 <Picker
                     onValueChange={(value, index) =>setSelectedValue(value)}
@@ -84,21 +83,21 @@ export function OverTitle({selectValue, setSelectedValue}){
                         backgroundColor: '#F27405'
                     } ]} onPress={() =>setActive('year')}>
                         <Text style={[
-                            { textAlign: 'center', fontSize: 10 }
-                        ]}>ANNEE</Text>
+                            { textAlign: 'center', fontSize: 8 }
+                        ]}>CETTE ANNEE</Text>
                     </TouchableOpacity>
                     <TouchableOpacity style={[ styles.date, active === 'month' && {
                         backgroundColor: '#F27405'
                     } ]} onPress={() =>setActive('month')}>
                         <Text style={[
-                            { textAlign: 'center', fontSize: 10 }
-                        ]}>MOIS</Text>
+                            { textAlign: 'center', fontSize: 8 }
+                        ]}>CE MOIS</Text>
                     </TouchableOpacity>
                     <TouchableOpacity style={[ styles.date, active === 'day' && {
                         backgroundColor: '#F27405'
                     } ]} onPress={() =>setActive('day')}>
                         <Text style={[
-                            { textAlign: 'center', fontSize: 10 }
+                            { textAlign: 'center', fontSize: 8 }
                         ]}>AJOURD'HUI</Text>
                     </TouchableOpacity>
                 </View>
@@ -172,9 +171,10 @@ const styles = StyleSheet.create({
     },
     select: {
         backgroundColor: 'white',
-        width: '35%',
+        width: '33%',
         height: 40,
-        borderRadius: 20
+        borderRadius: 20,
+        fontSize: 8
     },
     blockStats: {
         width: '90%',

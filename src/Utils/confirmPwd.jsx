@@ -63,10 +63,10 @@ export function ConfirmModal({visible, setVisible, cb}) {
             <ScrollView style={{
                 flex: 1
             }} contentContainerStyle={styles.modalView}>
-                <Text style={styles.modalTitle}> Veuillez confirmer votre mot de passe pour executer l'opération </Text>
+                <Text style={styles.modalTitle}> Veuillez confirmer votre code secret pour executer l'opération </Text>
                 <View>
                     <Text style={{ color: color.red, marginHorizontal: 10, textAlign: 'center' }}> {msg} </Text>
-                    <TextInput secureTextEntry  onChangeText={setPwd} style={styles.input} placeholder='Entrer votre mot de passe' />
+                    <TextInput secureTextEntry keyboardType='numeric'  onChangeText={setPwd} style={styles.input} placeholder='Entrer votre code secret' />
                 </View>
                 <View style={{
                     display: 'flex',
@@ -91,7 +91,7 @@ export function ConfirmModal({visible, setVisible, cb}) {
                     onPress={() =>{ !loading && submit() }}
                     >
                         <Text style={{ color: color.orange }}>{
-                            loading && <ActivityIndicator color={color.orange} />} Soumettre</Text>
+                            loading && <ActivityIndicator color={color.orange} />} Verifier</Text>
                     </TouchableOpacity>
                 </View>
             </ScrollView>

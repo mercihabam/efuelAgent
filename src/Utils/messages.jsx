@@ -81,7 +81,8 @@ export function ErrorMsg({error}){
         borderColor: color.red,
         borderWidth: 0.5,
         flexDirection: 'row',
-        alignItems: 'center'
+        alignItems: 'center',
+        marginBottom: 5
     }}>
         <MIcon name='close' color='white' style={{ backgroundColor: color.red, borderRadius: 20, marginRight: 10 }} />
         <Text key={error} style={{
