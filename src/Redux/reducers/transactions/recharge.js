@@ -17,7 +17,7 @@ export default (state, {type, payload}) =>{
                     ...state.recharge,
                     loadingRecharge: false,
                     errorRecharge: '',
-                    msg: payload
+                    data: payload
                 }
             };
 

@@ -7,6 +7,7 @@ import Icon from 'react-native-vector-icons/FontAwesome5';
 import { useDispatch, useSelector } from "react-redux";
 import { rechargeAction } from "../../Redux/actions/transactions";
 import { color } from "../../Themes/color";
+import { SuccessModal } from "../../Utils/messages";
 import { QrScanner } from "./qrCodeScanner";
 import { SellForm } from "./sellForm";
 
@@ -15,8 +16,9 @@ export function ChooseProduct({navigation}){
     const [viewScan, setViewScan] = useState();
     const [ amount, setAmount ] = useState();
     const { dataSt } = useSelector(({ stations: {currStation} }) =>currStation);
-    const { msg, errorRecharge } = useSelector(({ transactions: { recharge } }) =>recharge);
+    const { data, errorRecharge } = useSelector(({ transactions: { recharge } }) =>recharge);
     const dispatch = useDispatch();
+    const [ success, setSuccess ] = useState(false);
 
     const onSell = () =>{
         if(amount && dataScanned){
@@ -26,7 +28,7 @@ export function ChooseProduct({navigation}){
                 from: dataSt.id
             })(dispatch, cb =>{
                 if(cb === true){
-                    navigation.navigate('dashboard')
+                    setSuccess(true)
                 }
             })
         }else{
@@ -36,6 +38,8 @@ export function ChooseProduct({navigation}){
 
     return(
         <View>
+            <SuccessModal trans={data} visible={success} navigation={navigation} type='recharge'
+                setVisible={setSuccess} msg="Transaction effectuée avec succès, Voulez-vous enregistrer la preuve de paiement?" />
             <View style={{
                 marginTop: 40
             }}>

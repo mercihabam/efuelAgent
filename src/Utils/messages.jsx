@@ -7,13 +7,18 @@ import MIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { useSelector } from 'react-redux';
 import { color } from '../Themes/color';
 import { createPdf } from './invoice';
+import { createProof } from './rechargeProof';
 
-export function SuccessModal({visible, setVisible, msg, navigation, trans}) {
+export function SuccessModal({visible, setVisible, msg, navigation, trans, type}) {
   const { dataSt } = useSelector(({ stations: {currStation} }) =>currStation);
 
   const hideModal = () => {setVisible(false); navigation.navigate('dashboard')};
   const onSave = () =>{
-    createPdf(trans, dataSt.name);
+    if(type){
+      createProof(trans, dataSt.name);
+    }else{
+      createPdf(trans, dataSt.name);
+    }
     navigation.navigate('dashboard')
   }
 

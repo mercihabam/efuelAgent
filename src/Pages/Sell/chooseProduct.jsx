@@ -50,7 +50,7 @@ export function ChooseProduct({navigation}){
 
     return(
         <View>
-            <SuccessModal trans={data} visible={success} navigation={navigation} setVisible={setSuccess} msg="Transaction effectuée avec succès, Voulez-vous enregistrer la facture ?" />
+            <SuccessModal trans={data} visible={success} navigation={navigation} setVisible={setSuccess} msg="Transaction effectuée avec succès, Voulez-vous enregistrer la preuve ?" />
             <View style={{
                 marginTop: 40
             }}>

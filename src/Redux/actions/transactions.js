@@ -92,10 +92,9 @@ export const rechargeAction = (data) =>async(dispatch, cb=null) =>{
         if(res.status === 200){
             dispatch({
                 type: RECHARGE_SUCCESS,
-                payload: res.data.msg
+                payload: res.data.data
             });
             cb(true);
-            console.log(res.data);
             ToastAndroid.show(res.data.msg, ToastAndroid.LONG)
         }
     } catch (error) {

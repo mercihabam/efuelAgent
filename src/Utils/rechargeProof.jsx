@@ -7,7 +7,7 @@ import { Platform, ToastAndroid } from 'react-native';
 import { StorageAccessFramework } from 'expo-file-system';
 import moment from 'moment';
 
-function html(trans, station){
+function html(data, station){
     return(
         `<!DOCTYPE html>
 <html lang="en">
@@ -33,26 +33,26 @@ function html(trans, station){
             <div>+243977426917</div>
             <div>efuelpoint@contact.com</div>
         </div>
-        <h1>#${trans.id}</h1>
+        <h1>#${data.trans.id}</h1>
     </header>
     <main>
         <div style="font-weight: bold; margin-bottom: 20px; text-transform: uppercase;">STATION : ${station}</div>
         <div style="display: flex; justify-content: space-between; margin-bottom: 5px">
-            <div>Nom du client :</div>
-            <div>${trans.Client.fullName}</div>
+            <div>Nom du bénéficiaire :</div>
+            <div>${data.receiver.fullName}</div>
         </div>
         <div style="display: flex; justify-content: space-between; margin-bottom: 5px">
             <div>Montant :</div>
-            <div> ${trans.amount} litre${trans.amount > 1 ? 's': ''} </div>
+            <div> ${data.trans.amount} litre${data.trans.amount > 1 ? 's': ''} </div>
         </div>
         <div style="display: flex; justify-content: space-between; margin-bottom: 5px">
             <div>Date :</div>
-            <div> ${ moment(trans.createdAt).format('L LT') } </div>
+            <div> ${ moment(data.trans.createdAt).format('L LT') } </div>
         </div>
 
         <div style="display: flex; justify-content: space-between; margin-bottom: 20px; margin-top: 25px">
-            <div>Solde restant :</div>
-            <div> ${trans.Client.Wallet.balance} litre${trans.Client.Wallet.balance > 1 ? 's': ''} </div>
+            <div>Solde du bénéficiaire :</div>
+            <div> ${data.receiver.Wallet.balance} litre${data.receiver.Wallet.balance > 1 ? 's': ''} </div>
         </div>
     </main>
     <footer style="padding-top: 10px; border-top: 1px dashed black">
@@ -65,11 +65,11 @@ function html(trans, station){
     )
 }
 
-export async function createPdf(trans, stationName){
+export async function createProof(data, stationName){
     try {
-        const clName = trans.Client.fullName || '';
+        const clName = data.receiver.fullName || '';
         const name = clName.split(' ')[0];
-        const { uri, base64 } = await Print.printToFileAsync({ html: html(trans, stationName),  width: 300, height: 400});
+        const { uri, base64 } = await Print.printToFileAsync({ html: html(data, stationName),  width: 300, height: 400});
         if(Platform.OS === 'ios'){
             await Sharing.shareAsync(uri)
         }else{
@@ -78,16 +78,16 @@ export async function createPdf(trans, stationName){
                 const dirUri = permissions.directoryUri;
                 let invoiceDir = StorageAccessFramework.getUriForDirectoryInRoot('efuelinvoice');
                 if(invoiceDir){
-                    const file = await StorageAccessFramework.createFileAsync(`${dirUri}/${invoiceDir}`, `fac-${name}`, 'application/pdf' );
+                    const file = await StorageAccessFramework.createFileAsync(`${dirUri}/${invoiceDir}`, `proof-${name}`, 'application/pdf' );
                     const data = await FileSystem.readAsStringAsync(uri, { encoding: 'base64' });
                     await StorageAccessFramework.writeAsStringAsync(file, data, { encoding: 'base64' });
                 }else{
                     invoiceDir = await StorageAccessFramework.makeDirectoryAsync(dirUri, 'efuelinvoice');
-                    const file = await StorageAccessFramework.createFileAsync(`${dirUri}/${invoiceDir}`, `fac-${name}`, 'application/pdf' );
+                    const file = await StorageAccessFramework.createFileAsync(`${dirUri}/${invoiceDir}`, `proof-${name}`, 'application/pdf' );
                     const data = await FileSystem.readAsStringAsync(uri, { encoding: 'base64' });
                     await StorageAccessFramework.writeAsStringAsync(file, data, { encoding: 'base64' });
                 }
-                ToastAndroid.showWithGravity('Facture enregistree en pdf', 10000, ToastAndroid.CENTER)
+                ToastAndroid.showWithGravity('Preuve enregistree en pdf', 10000, ToastAndroid.CENTER)
             }
         }
     } catch (error) {

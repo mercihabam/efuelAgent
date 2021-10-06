@@ -10,11 +10,12 @@ export default {
         loadingSell: false,
         errorSell: '',
         msg: null,
-        data: { Client: {} }
+        data: { Client: { Wallet: {} } }
     },
     recharge: {
         loadingRecharge: false,
         errorRecharge: '',
-        msg: null
+        msg: null,
+        data: { trans: {}, receiver: {} }
     }
 }
