@@ -9,8 +9,9 @@ import { color } from '../Themes/color';
 import { SERVER_URL, TOKEN_NAME } from 'env';
 import * as secureStore from 'expo-secure-store'
 import { ActivityIndicator } from 'react-native';
+import { ErrorMsg } from './messages';
 
-export function ConfirmModal({visible, setVisible, cb}) {
+export function ConfirmModal({visible, setVisible, cb, text="Veuillez confirmer votre code secret pour executer l'opération", user}) {
     const [ pwd, setPwd ] = useState();
     const [loading, setLoading] = useState();
     const [msg, setMsg] = useState();
@@ -23,7 +24,8 @@ export function ConfirmModal({visible, setVisible, cb}) {
                 setLoading(true);
                 setMsg(null)
                 const token = await secureStore.getItemAsync(TOKEN_NAME);
-                const res = await axios.post(`${SERVER_URL}/users/confirm-password`, {
+                const url = user ? `${SERVER_URL}/users/confirm-password?userId=${user.id}`: `${SERVER_URL}/users/confirm-password`
+                const res = await axios.post(url, {
                     password: pwd
                 }, {
                     headers: {
@@ -39,7 +41,7 @@ export function ConfirmModal({visible, setVisible, cb}) {
                 setLoading(false);
                 const res = error.response;
                 if(res){
-                    setMsg(res.data.error)
+                    setMsg(res.data.error || 'Code secret incorrect')
                 }else{
                     setMsg('Veuillez reesayer')
                 }
@@ -63,10 +65,12 @@ export function ConfirmModal({visible, setVisible, cb}) {
             <ScrollView style={{
                 flex: 1
             }} contentContainerStyle={styles.modalView}>
-                <Text style={styles.modalTitle}> Veuillez confirmer votre code secret pour executer l'opération </Text>
+                <Text style={styles.modalTitle}> { text } </Text>
                 <View>
-                    <Text style={{ color: color.red, marginHorizontal: 10, textAlign: 'center' }}> {msg} </Text>
-                    <TextInput secureTextEntry keyboardType='numeric'  onChangeText={setPwd} style={styles.input} placeholder='Entrer votre code secret' />
+                    {
+                        msg && <ErrorMsg error={msg} />
+                    }
+                    <TextInput secureTextEntry keyboardType='numeric'  onChangeText={setPwd} style={styles.input} placeholder='****' />
                 </View>
                 <View style={{
                     display: 'flex',

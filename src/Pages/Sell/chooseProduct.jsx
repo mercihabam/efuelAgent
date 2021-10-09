@@ -17,7 +17,7 @@ import { SellForm } from "./sellForm";
 
 export function ChooseProduct({navigation}){
     const [selectValue, setSelectedValue] = useState('');
-    const [dataScanned, setData] = useState('');
+    const [dataScanned, setData] = useState({});
     const [viewScan, setViewScan] = useState();
     const pickerRef = React.createRef();
     const [ amount, setAmount ] = useState();
@@ -36,7 +36,7 @@ export function ChooseProduct({navigation}){
     const onSell = () =>{
         if(amount && stk.id){
             sellAction({
-                userId: dataScanned,
+                userId: dataScanned.id,
                 stockId: stk.id.toString(),
                 amount: amount,
                 stationId: dataSt.id
@@ -105,7 +105,7 @@ export function ChooseProduct({navigation}){
                 marginTop: 50
             }}>
                 {
-                    dataScanned ? <SellForm amount={amount} stock={stk.id} onSubmit={onSell} setData={setData} setAmount={setAmount} />:
+                    dataScanned.id ? <SellForm amount={amount} user={dataScanned} stock={stk.id} onSubmit={onSell} setData={setData} setAmount={setAmount} />:
                     <>
                         <Text style={{
                         textAlign: 'center'

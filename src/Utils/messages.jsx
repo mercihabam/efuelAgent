@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { ScrollView } from 'react-native';
+import { ActivityIndicator, ScrollView } from 'react-native';
 import { TouchableOpacity } from 'react-native';
 import { Modal, StyleSheet, Text, Pressable, View } from "react-native";
 import Icon from 'react-native-vector-icons/AntDesign';
@@ -69,6 +69,57 @@ export function SuccessModal({visible, setVisible, msg, navigation, trans, type}
                   }}> <Icon name='download' /> Enregistrer </Text>
               </TouchableOpacity>
             </View>
+          </ScrollView>
+        </ScrollView>
+      </Modal>
+    </View>
+  );
+};
+
+export function ResultModal({visible, hide, data, loading}) {
+
+  return (
+    <View>
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={visible}
+        // onRequestClose={() => {
+        //   hideModal()
+        // }}
+      >
+        <ScrollView contentContainerStyle={[styles.centeredView, {
+            backgroundColor: 'rgba(0, 0, 0, 0.4)'
+        }]}>
+            <ScrollView style={{
+              flex: 1
+          }} contentContainerStyle={styles.modalView}>
+            {loading ?<ActivityIndicator size={40} color={color.orange} />:
+              <>
+              <View style={{ alignItems: 'center', justifyContent: 'center' }}>
+              <Text><Icon name='user' style={{ fontWeight: 'bold', fontSize: 35, textAlign: 'center' }} /></Text>
+              <View>
+                <Text>Utilisateur: {data.fullName}</Text>
+              </View>
+            </View>
+            <View style={{ width: '100%', flexDirection: 'row', justifyContent: 'flex-end' }}>
+              <TouchableOpacity onPress={hide} style={{
+                  display: 'flex',
+                  flexDirection: 'row',
+                  justifyContent: 'flex-end',
+                  marginTop: 20,
+                  borderColor: color.orange,
+                  borderWidth: 1,
+                  borderRadius: 20,
+                  paddingBottom: 2,
+                  paddingHorizontal: 5
+              }}>
+                  <Text style={{
+                      color: color.orange
+                  }}> Ok </Text>
+              </TouchableOpacity>
+            </View>  
+            </>}
           </ScrollView>
         </ScrollView>
       </Modal>

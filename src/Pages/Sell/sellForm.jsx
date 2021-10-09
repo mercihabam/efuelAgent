@@ -6,9 +6,10 @@ import { TouchableOpacity } from 'react-native';
 import { ConfirmModal } from '../../Utils/confirmPwd';
 import { useState } from 'react';
 
-export function SellForm({setData, setAmount, onSubmit, amount, stock}){
+export function SellForm({setData, setAmount, onSubmit, amount, stock, user}){
     const { msg, errorSell, loadingSell } = useSelector(({ transactions: { sell } }) =>sell);
     const [visible, setVisible] = useState(false);
+    const [visible2, setVisible2] = useState(false);
 
     const viewConfirm = () =>{
         if(amount && stock){
@@ -38,8 +39,10 @@ export function SellForm({setData, setAmount, onSubmit, amount, stock}){
                     textAlign: 'center',
                     color: '#039be5',
                     marginTop: 40
-                }} onPress={() =>setData(null)}>Scanner encore</Text>
-            <ConfirmModal visible={visible} setVisible={setVisible} cb={onSubmit} />
+                }} onPress={() =>setData({})}>Scanner encore</Text>
+            <ConfirmModal visible={visible} setVisible={setVisible} cb={() =>setVisible2(true)} />
+            <ConfirmModal visible={visible2} setVisible={setVisible2} user={user}
+             cb={onSubmit} text={`Cher ${user.fullName} veuillez entrer votre code secret pour confirmer l'opération`} />
         </View>
     )
 };
