@@ -44,7 +44,7 @@ export const getStocks = (stationId) =>async(dispatch) =>{
 
     const token = await secureStore.getItemAsync(TOKEN_NAME);
     try {
-        const res = await axios.get(`${SERVER_URL}/stocks/stocks/${stationId}`, {
+        const res = await axios.get(`${SERVER_URL}/stocks/${stationId}`, {
             headers: {
                 'e-fuel-authtoken': token
             }

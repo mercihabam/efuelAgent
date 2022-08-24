@@ -78,7 +78,7 @@ export function ChooseProduct({navigation}){
                     loading={loadingStocks}
                     onPress={() =>pickerRef.current.focus()}
                 >
-                    {stk.name}
+                    {stk.Product?.name}
                 </Button>
                 <Picker
                     onValueChange={(value) =>setSelectedValue(value)}
@@ -93,7 +93,7 @@ export function ChooseProduct({navigation}){
                     }} label='choisir le stock' value='' disabled />
                     {
                         dataStocks.map(stock =>(
-                            <Picker.Item key={stock.id} label={stock.name} value={JSON.stringify(stock)} />
+                            <Picker.Item key={stock.id} label={stock.Product?.name} value={JSON.stringify(stock)} />
                         ))
                     }
                 </Picker>
